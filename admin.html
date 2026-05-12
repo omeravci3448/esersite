@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eser Mobilya | Yönetim Paneli</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="assets/images/logo.png" alt="Logo">
+                <h1>Yönetim Paneli</h1>
+                <p>Eser Mobilya Web Sitesi Kontrolü</p>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="root" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <div id="login-error" class="error-msg"></div>
+                <button type="submit" class="btn-primary">Giriş Yap</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="screen">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/images/logo.png" alt="Logo">
+                <span>ESER MOBİLYA</span>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-tab="general">
+                    <i class="fas fa-home"></i> Genel Bilgiler
+                </button>
+                <button class="nav-item" data-tab="collection">
+                    <i class="fas fa-images"></i> Koleksiyon
+                </button>
+                <button class="nav-item" data-tab="services">
+                    <i class="fas fa-concierge-bell"></i> Hizmetler
+                </button>
+                <button class="nav-item" data-tab="faq">
+                    <i class="fas fa-question-circle"></i> SSS
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h2 id="tab-title">Genel Bilgiler</h2>
+                <div class="user-info">
+                    <span id="user-display">root</span>
+                    <div class="avatar">R</div>
+                </div>
+            </header>
+
+            <section id="general-tab" class="tab-content active">
+                <form id="general-form" class="admin-form">
+                    <div class="card">
+                        <h3>Ana Sayfa (Hero)</h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>Hero Başlığı (HTML destekler)</label>
+                                <input type="text" name="hero_title" data-key="hero_title">
+                            </div>
+                            <div class="form-group full">
+                                <label>Hero Alt Başlığı</label>
+                                <textarea name="hero_subtitle" data-key="hero_subtitle" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>İletişim Bilgileri</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>E-posta</label>
+                                <input type="email" name="contact_email" data-key="contact_email">
+                            </div>
+                            <div class="form-group">
+                                <label>Telefon</label>
+                                <input type="text" name="contact_phone" data-key="contact_phone">
+                            </div>
+                            <div class="form-group full">
+                                <label>Adres</label>
+                                <input type="text" name="contact_address" data-key="contact_address">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="collection-tab" class="tab-content">
+                <div class="tab-header">
+                    <h3>Koleksiyon Ürünleri</h3>
+                    <button class="btn-secondary" id="add-item-btn"><i class="fas fa-plus"></i> Yeni Ekle</button>
+                </div>
+                <div class="collection-list" id="collection-list">
+                    <!-- Items will be loaded here -->
+                </div>
+            </section>
+
+            <section id="services-tab" class="tab-content">
+                <p>Hizmetler düzenleme paneli yakında...</p>
+            </section>
+
+            <section id="faq-tab" class="tab-content">
+                <p>SSS düzenleme paneli yakında...</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="item-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Ürün Düzenle</h3>
+            <form id="item-form">
+                <input type="hidden" id="item-id">
+                <div class="form-group">
+                    <label>Başlık</label>
+                    <input type="text" id="item-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Alt Başlık</label>
+                    <input type="text" id="item-subtitle">
+                </div>
+                <div class="form-group">
+                    <label>Görsel URL (veya Dosya Yükle)</label>
+                    <input type="text" id="item-image-url" placeholder="assets/images/..." required>
+                    <input type="file" id="item-image-file" accept="image/*" class="file-input">
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select id="item-category">
+                        <option value="Mutfak">Mutfak</option>
+                        <option value="Banyo">Banyo</option>
+                        <option value="Vestiyer">Vestiyer</option>
+                        <option value="Kapı">Kapı</option>
+                        <option value="Özel Tasarım">Özel Tasarım</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-modal">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
