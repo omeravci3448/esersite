@@ -141,6 +141,78 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Contact Form Submission (Web3Forms)
+    const contactForm = document.getElementById('contact-form');
+    const formResult = document.getElementById('form-result');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Gönderiliyor...';
+            submitBtn.disabled = true;
+            formResult.innerText = '';
+            formResult.className = '';
+
+            const formData = new FormData(contactForm);
+            const obj = Object.fromEntries(formData);
+            const json = JSON.stringify(obj);
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                });
+                const result = await response.json();
+
+                if (response.status === 200 && result.success) {
+                    formResult.innerText = '✓ Mesajınız iletildi. En kısa sürede sizinle iletişime geçeceğiz.';
+                    formResult.className = 'form-success';
+                    contactForm.reset();
+                } else {
+                    formResult.innerText = 'Bir hata oluştu. Lütfen WhatsApp üzerinden iletişime geçin.';
+                    formResult.className = 'form-error';
+                }
+            } catch (error) {
+                formResult.innerText = 'Bağlantı hatası. Lütfen WhatsApp üzerinden iletişime geçin.';
+                formResult.className = 'form-error';
+            }
+
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+        });
+    }
+
+    // KVKK Modal Logic
+    const kvkkLink = document.getElementById('kvkk-link');
+    const kvkkModal = document.getElementById('kvkk-modal');
+    const closeKvkk = document.getElementById('close-kvkk');
+
+    if (kvkkLink && kvkkModal) {
+        kvkkLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            kvkkModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeKvkk.addEventListener('click', () => {
+            kvkkModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === kvkkModal) {
+                kvkkModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+
     // Smooth scroll for nav links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {

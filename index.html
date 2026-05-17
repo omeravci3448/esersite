@@ -343,9 +343,8 @@
                         <li><i class="fas fa-envelope"></i> info@esericmimarlikmobilya.com</li>
                     </ul>
                     <div class="social-links">
-                        <a href="https://instagram.com/esermobilyamimarlik" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="https://wa.me/905543805135" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://instagram.com/esermobilyamimarlik" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/905543805135" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                     <div class="whatsapp-partners">
                         <h3>WhatsApp Destek Hattı</h3>
@@ -362,17 +361,32 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form>
+                    <form id="contact-form">
+                        <input type="hidden" name="access_key" value="52291e17-e9db-408f-b1c2-e297583631bd">
+                        <input type="hidden" name="subject" value="esericmimarlikmobilya.com - Yeni İletişim Formu Mesajı">
+                        <input type="hidden" name="from_name" value="Eser Mobilya Web Sitesi">
+                        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
                         <div class="form-group">
-                            <input type="text" placeholder="Adınız Soyadınız" required>
+                            <input type="text" name="name" placeholder="Adınız Soyadınız" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" placeholder="E-posta Adresiniz" required>
+                            <input type="email" name="email" placeholder="E-posta Adresiniz" required>
                         </div>
                         <div class="form-group">
-                            <textarea placeholder="Mesajınız" rows="5" required></textarea>
+                            <input type="tel" name="phone" placeholder="Telefon Numaranız" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Mesajınız" rows="5" required></textarea>
+                        </div>
+                        <div class="form-group form-consent">
+                            <label>
+                                <input type="checkbox" name="kvkk_consent" required>
+                                <span>Kişisel verilerimin bu form aracılığıyla iletişim kurulması amacıyla <a href="#" id="kvkk-link">KVKK kapsamında</a> işlenmesini onaylıyorum.</span>
+                            </label>
                         </div>
                         <button type="submit" class="btn primary">Gönder</button>
+                        <div id="form-result"></div>
                     </form>
                 </div>
             </div>
@@ -412,6 +426,30 @@
         </div>
         <div class="wa-btn">
             <i class="fab fa-whatsapp"></i>
+        </div>
+    </div>
+
+    <!-- KVKK Modal -->
+    <div id="kvkk-modal" class="modal">
+        <div class="modal-content kvkk-modal-content">
+            <span class="close-modal" id="close-kvkk">&times;</span>
+            <div class="modal-body">
+                <div class="kvkk-text">
+                    <h2>KVKK Aydınlatma Metni</h2>
+                    <p><strong>Veri Sorumlusu:</strong> Eser Mobilya & İç Mekan Tasarım<br>
+                    <strong>Adres:</strong> Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar<br>
+                    <strong>E-posta:</strong> info@esericmimarlikmobilya.com</p>
+
+                    <h3>Toplanan Kişisel Veriler</h3>
+                    <p>Web sitemizdeki iletişim formu aracılığıyla; ad-soyad, e-posta adresi, telefon numarası ve mesaj içeriği gibi kişisel verileriniz, yalnızca sizinle iletişime geçebilmek ve talebinizi değerlendirebilmek amacıyla işlenmektedir.</p>
+
+                    <h3>Verilerin Kullanım Amacı</h3>
+                    <p>Verileriniz; teklif sunma, randevu oluşturma ve müşteri iletişimi süreçlerinde kullanılacaktır. Üçüncü taraflarla paylaşılmaz, pazarlama amacıyla işlenmez.</p>
+
+                    <h3>Haklarınız</h3>
+                    <p>6698 sayılı KVKK'nın 11. maddesi kapsamında; kişisel verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini talep etme haklarınız bulunmaktadır. Talepleriniz için <strong>info@esericmimarlikmobilya.com</strong> adresine yazabilirsiniz.</p>
+                </div>
+            </div>
         </div>
     </div>
 

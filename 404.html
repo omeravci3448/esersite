@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayfa Bulunamadı (404) | Eser Mobilya & İç Mekan Tasarım</title>
+    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="Aradığınız sayfa bulunamadı. Eser Mobilya ana sayfasına dönerek mobilya koleksiyonumuzu inceleyebilirsiniz.">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #f39221;
+            --primary-dark: #d87e1a;
+            --dark: #1a1a1a;
+            --light: #fdf7f0;
+            --white: #ffffff;
+            --gray: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, var(--white) 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container-404 {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .logo-404 {
+            width: 120px;
+            height: auto;
+            margin-bottom: 2rem;
+        }
+
+        .error-code {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(6rem, 20vw, 12rem);
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(243, 146, 33, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 1.5px solid var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-404">
+        <img src="assets/images/logo.png" alt="Eser Mobilya Logo" class="logo-404">
+        <div class="error-code">404</div>
+        <h1>Aradığınız sayfayı bulamadık</h1>
+        <p>Sayfa taşınmış, kaldırılmış veya adres yanlış girilmiş olabilir. Ana sayfaya dönerek mobilya koleksiyonumuzu inceleyebilir veya bize ulaşabilirsiniz.</p>
+        <div class="btn-group">
+            <a href="/" class="btn btn-primary"><i class="fas fa-home"></i> Ana Sayfa</a>
+            <a href="https://wa.me/905543805135" class="btn btn-secondary"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+    </div>
+</body>
+</html>
