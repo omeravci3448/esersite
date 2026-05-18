@@ -106,8 +106,8 @@
             <img src="assets/images/hero.png" alt="Eser Mobilya & İç Mekan Tasarım">
         </div>
         <div class="hero-content container">
-            <h1 class="reveal">Afyonkarahisar'da Özel <br><span>Mobilya İmalatı</span></h1>
-            <p class="reveal">Afyon mobilya sektörünün öncü markası Eser Mobilya & İç Mekan Tasarım ile hayallerinizi gerçeğe dönüştürüyoruz. Özel ölçü mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı imalatında Afyonkarahisar'daki en güvenilir çözüm ortağınız.</p>
+            <h1 class="reveal" data-content="hero_title" data-html="true">Afyonkarahisar'da Özel <br><span>Mobilya İmalatı</span></h1>
+            <p class="reveal" data-content="hero_subtitle">Afyon mobilya sektörünün öncü markası Eser Mobilya & İç Mekan Tasarım ile hayallerinizi gerçeğe dönüştürüyoruz. Özel ölçü mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı imalatında Afyonkarahisar'daki en güvenilir çözüm ortağınız.</p>
             <div class="hero-btns reveal">
                 <a href="#collection" class="btn primary">Koleksiyonu İncele</a>
                 <a href="#contact" class="btn secondary">Tasarım Randevusu</a>
@@ -153,7 +153,7 @@
                 <span class="subtitle">Öne Çıkanlar</span>
                 <h2>Eser Mobilya Koleksiyonu</h2>
             </div>
-            <div class="collection-grid custom-grid">
+            <div class="collection-grid custom-grid" id="collection-grid">
                 <div class="collection-item reveal">
                     <div class="item-img">
                         <img src="assets/images/kitchen.png" alt="Mutfak Dolabı">
@@ -255,7 +255,7 @@
                 <span class="subtitle">Merak Edilenler</span>
                 <h2>Sıkça Sorulan Sorular</h2>
             </div>
-            <div class="faq-list reveal">
+            <div class="faq-list reveal" id="faq-list">
                 <div class="faq-item">
                     <div class="faq-question">Üretim süreci ne kadar sürer? <i class="fas fa-plus"></i></div>
                     <div class="faq-answer">Projenin büyüklüğüne göre değişmekle birlikte, ortalama bir mutfak veya vestiyer projesi onaydan sonra 3-4 hafta içinde teslim edilmektedir.</div>
@@ -340,8 +340,9 @@
                     <h2>Bize Ulaşın</h2>
                     <p>Projeniz için ücretsiz danışmanlık alın veya atölyemizi ziyaret edin.</p>
                     <ul class="contact-details">
-                        <li><i class="fas fa-map-marker-alt"></i> Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar</li>
-                        <li><i class="fas fa-envelope"></i> info@esericmimarlikmobilya.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-content="contact_address">Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar</span></li>
+                        <li><i class="fas fa-envelope"></i> <span data-content="contact_email">info@esericmimarlikmobilya.com</span></li>
+                        <li><i class="fas fa-phone"></i> <span data-content="contact_phone">+90 554 380 51 35</span></li>
                     </ul>
                     <div class="social-links">
                         <a href="https://instagram.com/esermobilyamimarlik" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>

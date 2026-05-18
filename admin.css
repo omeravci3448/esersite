@@ -412,3 +412,120 @@ input:focus, textarea:focus {
     padding: 8px;
     font-size: 0.8rem;
 }
+
+/* Image Upload Area */
+.image-upload-area {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.file-upload-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+.file-upload-label:hover {
+    border-color: var(--primary);
+    background: rgba(243, 146, 33, 0.05);
+    color: var(--primary);
+}
+
+/* FAQ Cards in Admin */
+.faq-list-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.faq-card .faq-content {
+    flex: 1;
+}
+
+.faq-card h4 {
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.faq-card p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.faq-card .item-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+/* Loading / Empty / Error states */
+.loading, .empty, .error {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.error {
+    color: #dc3545;
+}
+
+/* Toast Notification */
+#admin-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    font-size: 0.92rem;
+    max-width: 360px;
+}
+
+#admin-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#admin-toast.toast-success {
+    border-left: 4px solid #28a745;
+}
+
+#admin-toast.toast-error {
+    border-left: 4px solid #dc3545;
+}
+
+#admin-toast.toast-info {
+    border-left: 4px solid var(--primary);
+}

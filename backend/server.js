@@ -1,0 +1,52 @@
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import './db.js';
+
+import authRoutes from './routes/auth.js';
+import contentRoutes from './routes/content.js';
+import collectionRoutes from './routes/collection.js';
+import faqRoutes from './routes/faq.js';
+import uploadRoutes from './routes/upload.js';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const DATA_DIR = process.env.DATA_DIR || './data';
+
+const allowedOrigins = (process.env.CORS_ORIGINS || 'https://esericmimarlikmobilya.com,https://www.esericmimarlikmobilya.com')
+  .split(',')
+  .map(s => s.trim());
+
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);
+    if (allowedOrigins.includes(origin) || origin.startsWith('http://localhost')) {
+      return cb(null, true);
+    }
+    cb(new Error('CORS: origin izinli değil'));
+  }
+}));
+
+app.use(express.json({ limit: '1mb' }));
+app.use('/uploads', express.static(path.join(DATA_DIR, 'uploads'), {
+  maxAge: '7d',
+  setHeaders: (res) => res.setHeader('Cache-Control', 'public, max-age=604800')
+}));
+
+app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+
+app.use('/auth', authRoutes);
+app.use('/content', contentRoutes);
+app.use('/collection', collectionRoutes);
+app.use('/faq', faqRoutes);
+app.use('/upload', uploadRoutes);
+
+app.use((err, req, res, next) => {
+  console.error('[error]', err);
+  res.status(err.status || 500).json({ error: err.message || 'Sunucu hatası' });
+});
+
+app.listen(PORT, () => {
+  console.log(`[server] Eser Mobilya API ${PORT} portunda dinliyor`);
+  console.log(`[server] İzin verilen origin'ler: ${allowedOrigins.join(', ')}`);
+});

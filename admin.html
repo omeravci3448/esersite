@@ -126,16 +126,25 @@
             </section>
 
             <section id="services-tab" class="tab-content">
-                <p>Hizmetler düzenleme paneli yakında...</p>
+                <div class="card">
+                    <h3>Hizmetler</h3>
+                    <p style="color:#888; font-size:0.9rem;">Hizmet kartları (Özel İmalat, Projelendirme, Montaj & Servis) şimdilik sabit metinler olarak yönetilmektedir. Değişiklik için site yöneticisine danışın.</p>
+                </div>
             </section>
 
             <section id="faq-tab" class="tab-content">
-                <p>SSS düzenleme paneli yakında...</p>
+                <div class="tab-header">
+                    <h3>Sıkça Sorulan Sorular</h3>
+                    <button class="btn-secondary" id="add-faq-btn"><i class="fas fa-plus"></i> Yeni Soru Ekle</button>
+                </div>
+                <div class="faq-list-admin" id="faq-list">
+                    <!-- FAQs will be loaded here -->
+                </div>
             </section>
         </main>
     </div>
 
-    <!-- Add/Edit Modal -->
+    <!-- Item Add/Edit Modal -->
     <div id="item-modal" class="modal">
         <div class="modal-content">
             <h3 id="modal-title">Ürün Düzenle</h3>
@@ -150,22 +159,52 @@
                     <input type="text" id="item-subtitle">
                 </div>
                 <div class="form-group">
-                    <label>Görsel URL (veya Dosya Yükle)</label>
-                    <input type="text" id="item-image-url" placeholder="assets/images/..." required>
-                    <input type="file" id="item-image-file" accept="image/*" class="file-input">
+                    <label>Görsel</label>
+                    <div class="image-upload-area">
+                        <img id="item-image-preview" style="display:none; max-width:100%; max-height:200px; border-radius:8px; margin-bottom:0.5rem;">
+                        <input type="text" id="item-image-url" placeholder="Görsel URL'i veya yüklenmiş yol" required>
+                        <label for="item-image-file" class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Yükle
+                        </label>
+                        <input type="file" id="item-image-file" accept="image/*" class="file-input" hidden>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Kategori</label>
                     <select id="item-category">
                         <option value="Mutfak">Mutfak</option>
-                        <option value="Banyo">Banyo</option>
+                        <option value="TV Ünitesi">TV Ünitesi</option>
+                        <option value="Gardırop">Gardırop</option>
                         <option value="Vestiyer">Vestiyer</option>
                         <option value="Kapı">Kapı</option>
+                        <option value="Banyo">Banyo</option>
                         <option value="Özel Tasarım">Özel Tasarım</option>
                     </select>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-ghost" id="close-modal">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FAQ Add/Edit Modal -->
+    <div id="faq-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="faq-modal-title">Soru Düzenle</h3>
+            <form id="faq-form">
+                <input type="hidden" id="faq-id">
+                <div class="form-group">
+                    <label>Soru</label>
+                    <input type="text" id="faq-question" required>
+                </div>
+                <div class="form-group">
+                    <label>Cevap</label>
+                    <textarea id="faq-answer" rows="5" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-faq-modal">İptal</button>
                     <button type="submit" class="btn-primary">Kaydet</button>
                 </div>
             </form>
