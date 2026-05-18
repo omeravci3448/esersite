@@ -68,4 +68,50 @@ for (const [key, value] of Object.entries(defaultContent)) {
   insertContent.run(key, value);
 }
 
+const collectionCount = db.prepare('SELECT COUNT(*) as c FROM collection').get().c;
+if (collectionCount === 0) {
+  const defaultCollection = [
+    { title: 'Afyon Mutfak Dolapları', subtitle: 'Modern & Fonksiyonel', image_url: '/assets/images/kitchen.png', category: 'Mutfak', order_index: 1 },
+    { title: 'Vestiyer & Portmanto', subtitle: 'Şık Karşılama Alanları', image_url: '/assets/images/vestiyer.png', category: 'Vestiyer', order_index: 2 },
+    { title: 'Gardırop, Dolap & TV Ünitesi', subtitle: 'Akıllı Depolama', image_url: '/assets/images/closet.png', category: 'Gardırop', order_index: 3 },
+    { title: 'İç Mekan Kapı İmalatı', subtitle: 'Premium Ahşap İşçiliği', image_url: '/assets/images/door.png', category: 'Kapı', order_index: 4 }
+  ];
+  const insertCol = db.prepare('INSERT INTO collection (title, subtitle, image_url, category, order_index) VALUES (?, ?, ?, ?, ?)');
+  for (const item of defaultCollection) {
+    insertCol.run(item.title, item.subtitle, item.image_url, item.category, item.order_index);
+  }
+  console.log(`[db] ${defaultCollection.length} koleksiyon ürünü eklendi`);
+}
+
+const faqCount = db.prepare('SELECT COUNT(*) as c FROM faq').get().c;
+if (faqCount === 0) {
+  const defaultFaq = [
+    {
+      question: 'Üretim süreci ne kadar sürer?',
+      answer: 'Projenin büyüklüğüne göre değişmekle birlikte, ortalama bir mutfak veya vestiyer projesi onaydan sonra 3-4 hafta içinde teslim edilmektedir.',
+      order_index: 1
+    },
+    {
+      question: 'Ücretsiz keşif ve ölçü alıyor musunuz?',
+      answer: 'Evet, Afyonkarahisar merkez ve çevre bölgelerde yerinde ölçü alıyor ve projenizi 3 boyutlu olarak tasarlayıp ücretsiz sunuyoruz.',
+      order_index: 2
+    },
+    {
+      question: 'Ürünlerinizde garanti süresi ne kadar?',
+      answer: 'Tüm imalatlarımızda malzeme hatalarına karşı 2 yıl, kullanılan mekanizmalarda ise üretici garantisiyle 10 yıla kadar destek sunuyoruz.',
+      order_index: 3
+    },
+    {
+      question: 'TV ünitesi ve gardırop imalatı da yapıyor musunuz?',
+      answer: 'Evet, mutfak dolabı ve vestiyer dışında özel ölçü TV ünitesi, gardırop, giyinme odası ve iç mekan kapı imalatı da yapıyoruz. Tüm ürünler Afyonkarahisar atölyemizde üretilmektedir.',
+      order_index: 4
+    }
+  ];
+  const insertFaq = db.prepare('INSERT INTO faq (question, answer, order_index) VALUES (?, ?, ?)');
+  for (const f of defaultFaq) {
+    insertFaq.run(f.question, f.answer, f.order_index);
+  }
+  console.log(`[db] ${defaultFaq.length} SSS sorusu eklendi`);
+}
+
 export default db;
