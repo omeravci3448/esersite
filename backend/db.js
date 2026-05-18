@@ -58,6 +58,8 @@ if (userCount === 0) {
 const defaultContent = {
   hero_title: "Afyonkarahisar'da Özel <span>Mobilya İmalatı</span>",
   hero_subtitle: "Afyon mobilya sektörünün öncü markası Eser Mobilya & İç Mekan Tasarım ile hayallerinizi gerçeğe dönüştürüyoruz. Özel ölçü mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı imalatında Afyonkarahisar'daki en güvenilir çözüm ortağınız.",
+  hero_image: "/assets/images/hero.png",
+  about_image: "/assets/images/hero.png",
   contact_email: "info@esericmimarlikmobilya.com",
   contact_phone: "+90 554 380 51 35",
   contact_address: "Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar"

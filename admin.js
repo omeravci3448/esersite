@@ -124,12 +124,55 @@ async function loadGeneralContent() {
         const content = await api('/content');
         document.querySelectorAll('[data-key]').forEach(input => {
             const key = input.dataset.key;
-            if (content[key] !== undefined) input.value = content[key];
+            if (content[key] !== undefined) {
+                input.value = content[key];
+                const preview = document.querySelector(`[data-preview-for="${key}"]`);
+                if (preview && content[key]) {
+                    preview.src = imageUrl(content[key]);
+                    preview.style.display = 'block';
+                }
+            }
         });
     } catch (err) {
         console.error('İçerik yüklenemedi:', err);
     }
 }
+
+document.querySelectorAll('input[type="file"][data-upload-for]').forEach(fileInput => {
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const targetKey = fileInput.dataset.uploadFor;
+        const targetInput = document.querySelector(`input[data-key="${targetKey}"]`);
+        const preview = document.querySelector(`[data-preview-for="${targetKey}"]`);
+        const label = document.querySelector(`label[for="${fileInput.id}"]`);
+        const originalLabelHtml = label?.innerHTML;
+        if (label) label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
+
+        try {
+            const fd = new FormData();
+            fd.append('image', file);
+            const res = await fetch(`${API_URL}/upload`, {
+                method: 'POST',
+                headers: authHeaders(),
+                body: fd
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Yükleme başarısız');
+            if (targetInput) targetInput.value = data.url;
+            if (preview) {
+                preview.src = imageUrl(data.url);
+                preview.style.display = 'block';
+            }
+            showToast('Görsel yüklendi. Değişiklik için "Kaydet" butonuna basın.', 'success');
+        } catch (err) {
+            showToast(err.message, 'error');
+        } finally {
+            if (label && originalLabelHtml) label.innerHTML = originalLabelHtml;
+            fileInput.value = '';
+        }
+    });
+});
 
 document.getElementById('general-form').addEventListener('submit', async (e) => {
     e.preventDefault();

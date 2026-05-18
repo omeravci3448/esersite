@@ -23,8 +23,10 @@ async function loadDynamicContent() {
         document.querySelectorAll('[data-content]').forEach(el => {
             const key = el.dataset.content;
             const value = content.value[key];
-            if (typeof value !== 'string') return;
-            if (el.dataset.html === 'true') {
+            if (typeof value !== 'string' || !value) return;
+            if (el.tagName === 'IMG') {
+                el.src = apiImageUrl(value);
+            } else if (el.dataset.html === 'true') {
                 el.innerHTML = value;
             } else {
                 el.textContent = value;

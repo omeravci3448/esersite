@@ -88,6 +88,24 @@
                                 <label>Hero Alt Başlığı</label>
                                 <textarea name="hero_subtitle" data-key="hero_subtitle" rows="3"></textarea>
                             </div>
+                            <div class="form-group full content-image-field">
+                                <label>Hero Arka Plan Görseli</label>
+                                <img class="content-image-preview" data-preview-for="hero_image" style="display:none;">
+                                <input type="text" name="hero_image" data-key="hero_image" placeholder="/assets/images/... veya /uploads/...">
+                                <label class="file-upload-label" for="hero_image_file">
+                                    <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Yükle
+                                </label>
+                                <input type="file" id="hero_image_file" data-upload-for="hero_image" accept="image/*" hidden>
+                            </div>
+                            <div class="form-group full content-image-field">
+                                <label>Hakkımızda Bölümü Görseli</label>
+                                <img class="content-image-preview" data-preview-for="about_image" style="display:none;">
+                                <input type="text" name="about_image" data-key="about_image" placeholder="/assets/images/... veya /uploads/...">
+                                <label class="file-upload-label" for="about_image_file">
+                                    <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Yükle
+                                </label>
+                                <input type="file" id="about_image_file" data-upload-for="about_image" accept="image/*" hidden>
+                            </div>
                         </div>
                     </div>
 
