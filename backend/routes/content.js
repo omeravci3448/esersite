@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import db from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
+import { deleteUploadIfExists } from './upload.js';
 
 const router = Router();
 
@@ -17,7 +18,12 @@ router.patch('/:key', requireAuth, (req, res) => {
   if (typeof value !== 'string') {
     return res.status(400).json({ error: 'value alanı string olmalı' });
   }
+  const previous = db.prepare('SELECT value FROM content WHERE key = ?').get(key);
   db.prepare('INSERT INTO content (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value').run(key, value);
+
+  if (previous && previous.value && previous.value !== value && key.endsWith('_image')) {
+    deleteUploadIfExists(previous.value);
+  }
   res.json({ key, value });
 });
 

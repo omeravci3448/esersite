@@ -97,12 +97,35 @@ logoutBtn.addEventListener('click', () => {
     location.reload();
 });
 
+let uploadLimits = { maxFileSizeMB: 5, maxUploadCount: 100, currentCount: 0 };
+
+async function loadUploadLimits() {
+    try {
+        uploadLimits = await api('/upload/limits');
+        const status = document.getElementById('upload-status');
+        if (status) {
+            const c = uploadLimits.currentCount;
+            const max = uploadLimits.maxUploadCount;
+            const pct = max > 0 ? (c / max) : 0;
+            status.innerHTML = `<i class="fas fa-images"></i> ${c} / ${max} görsel`;
+            status.classList.toggle('warn', pct >= 0.8 && pct < 1);
+            status.classList.toggle('full', pct >= 1);
+        }
+        document.querySelectorAll('.upload-hint').forEach(el => {
+            el.innerText = `En fazla ${uploadLimits.maxFileSizeMB} MB · Toplam ${uploadLimits.currentCount}/${uploadLimits.maxUploadCount}`;
+        });
+    } catch (err) {
+        console.warn('Upload limit bilgisi alınamadı:', err);
+    }
+}
+
 function showDashboard() {
     loginScreen.classList.remove('active');
     adminDashboard.classList.add('active');
     document.getElementById('user-display').innerText = currentUser.full_name || currentUser.username;
     const avatar = document.querySelector('.avatar');
     if (avatar) avatar.innerText = (currentUser.full_name || currentUser.username).charAt(0).toUpperCase();
+    loadUploadLimits();
     loadGeneralContent();
     loadCollection();
     loadFaq();
@@ -158,13 +181,14 @@ document.querySelectorAll('input[type="file"][data-upload-for]').forEach(fileInp
                 body: fd
             });
             const data = await res.json();
-            if (!res.ok) throw new Error(data.error || 'Yükleme başarısız');
+            if (!res.ok) throw new Error(data.message || data.error || 'Yükleme başarısız');
             if (targetInput) targetInput.value = data.url;
             if (preview) {
                 preview.src = imageUrl(data.url);
                 preview.style.display = 'block';
             }
             showToast('Görsel yüklendi. Değişiklik için "Kaydet" butonuna basın.', 'success');
+            loadUploadLimits();
         } catch (err) {
             showToast(err.message, 'error');
         } finally {
@@ -266,13 +290,14 @@ itemImageFile?.addEventListener('change', async (e) => {
             body: fd
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Yükleme başarısız');
+        if (!res.ok) throw new Error(data.message || data.error || 'Yükleme başarısız');
         itemImageUrl.value = data.url;
         if (itemImagePreview) {
             itemImagePreview.src = imageUrl(data.url);
             itemImagePreview.style.display = 'block';
         }
         showToast('Görsel yüklendi', 'success');
+        loadUploadLimits();
     } catch (err) {
         showToast(err.message, 'error');
     } finally {
@@ -330,6 +355,7 @@ async function deleteItem(id) {
     try {
         await api(`/collection/${id}`, { method: 'DELETE' });
         loadCollection();
+        loadUploadLimits();
         showToast('Ürün silindi', 'success');
     } catch (err) {
         showToast(err.message, 'error');

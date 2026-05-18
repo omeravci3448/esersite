@@ -70,6 +70,7 @@
             <header class="content-header">
                 <h2 id="tab-title">Genel Bilgiler</h2>
                 <div class="user-info">
+                    <span id="upload-status" class="upload-status" title="Yüklenmiş görsel sayısı"></span>
                     <span id="user-display">root</span>
                     <div class="avatar">R</div>
                 </div>
@@ -96,6 +97,7 @@
                                     <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Yükle
                                 </label>
                                 <input type="file" id="hero_image_file" data-upload-for="hero_image" accept="image/*" hidden>
+                                <span class="upload-hint"></span>
                             </div>
                             <div class="form-group full content-image-field">
                                 <label>Hakkımızda Bölümü Görseli</label>
@@ -105,6 +107,7 @@
                                     <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Yükle
                                 </label>
                                 <input type="file" id="about_image_file" data-upload-for="about_image" accept="image/*" hidden>
+                                <span class="upload-hint"></span>
                             </div>
                         </div>
                     </div>
@@ -185,6 +188,7 @@
                             <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Yükle
                         </label>
                         <input type="file" id="item-image-file" accept="image/*" class="file-input" hidden>
+                        <span class="upload-hint"></span>
                     </div>
                 </div>
                 <div class="form-group">

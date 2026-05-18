@@ -435,6 +435,38 @@ input:focus, textarea:focus {
     margin-bottom: 4px;
 }
 
+.upload-hint {
+    display: block;
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 4px;
+}
+
+.upload-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    margin-right: 8px;
+}
+
+.upload-status.warn {
+    background: rgba(255, 193, 7, 0.12);
+    border-color: rgba(255, 193, 7, 0.35);
+    color: #d39d00;
+}
+
+.upload-status.full {
+    background: rgba(220, 53, 69, 0.12);
+    border-color: rgba(220, 53, 69, 0.35);
+    color: #dc3545;
+}
+
 .file-upload-label {
     display: inline-flex;
     align-items: center;
