@@ -62,7 +62,7 @@
     <nav id="navbar">
         <div class="container nav-inner">
             <a href="#" class="logo">
-                <span class="logo-mark">ESER</span>
+                <img src="assets/images/logo.png" alt="Eser Mobilya Logo" class="logo-img">
                 <span class="logo-divider"></span>
                 <span class="logo-sub">FASON KESİM</span>
             </a>
@@ -239,9 +239,8 @@
                         <li><i class="fas fa-map-marker-alt"></i> <span data-content="contact_address">Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar</span></li>
                     </ul>
 
-                    <div class="wa-buttons">
-                        <a href="https://wa.me/905543805135" target="_blank" rel="noopener" class="wa-btn"><i class="fab fa-whatsapp"></i> WhatsApp Hattı 1</a>
-                        <a href="https://wa.me/905069046819" target="_blank" rel="noopener" class="wa-btn"><i class="fab fa-whatsapp"></i> WhatsApp Hattı 2</a>
+                    <div class="wa-buttons" id="whatsapp-grid">
+                        <!-- Dinamik içerik (API'dan yüklenir) -->
                     </div>
                 </div>
 
@@ -320,9 +319,14 @@
     </footer>
 
     <!-- Floating WhatsApp -->
-    <a href="https://wa.me/905543805135" target="_blank" rel="noopener" class="floating-wa" aria-label="WhatsApp ile iletişim">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <div class="floating-wa-wrapper">
+        <div class="floating-wa-menu" id="floating-wa-menu">
+            <!-- Dinamik içerik (API'dan yüklenir) -->
+        </div>
+        <button class="floating-wa" aria-label="WhatsApp ile iletişim" type="button">
+            <i class="fab fa-whatsapp"></i>
+        </button>
+    </div>
 
     <script src="main.js"></script>
 </body>

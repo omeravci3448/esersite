@@ -107,4 +107,44 @@ router.delete('/faq/:id', requireAuth, (req, res) => {
   res.json({ success: true });
 });
 
+// ───── Fason WhatsApp (CRUD) ─────
+router.get('/whatsapp', (req, res) => {
+  const rows = db.prepare('SELECT * FROM fason_whatsapp ORDER BY order_index ASC, id ASC').all();
+  res.json(rows);
+});
+
+router.post('/whatsapp', requireAuth, (req, res) => {
+  const { name, number, order_index } = req.body;
+  if (!name || !number) return res.status(400).json({ error: 'name ve number zorunlu' });
+  const cleanNumber = String(number).replace(/[^\d]/g, '');
+  if (!cleanNumber) return res.status(400).json({ error: 'Geçerli bir telefon numarası girin' });
+  const result = db.prepare(
+    'INSERT INTO fason_whatsapp (name, number, order_index) VALUES (?, ?, ?)'
+  ).run(name, cleanNumber, Number(order_index) || 0);
+  const row = db.prepare('SELECT * FROM fason_whatsapp WHERE id = ?').get(result.lastInsertRowid);
+  res.json(row);
+});
+
+router.patch('/whatsapp/:id', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const existing = db.prepare('SELECT * FROM fason_whatsapp WHERE id = ?').get(id);
+  if (!existing) return res.status(404).json({ error: 'Bulunamadı' });
+  const updated = {
+    name: req.body.name ?? existing.name,
+    number: req.body.number != null ? String(req.body.number).replace(/[^\d]/g, '') : existing.number,
+    order_index: req.body.order_index ?? existing.order_index
+  };
+  db.prepare(
+    'UPDATE fason_whatsapp SET name = ?, number = ?, order_index = ? WHERE id = ?'
+  ).run(updated.name, updated.number, updated.order_index, id);
+  res.json(db.prepare('SELECT * FROM fason_whatsapp WHERE id = ?').get(id));
+});
+
+router.delete('/whatsapp/:id', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const result = db.prepare('DELETE FROM fason_whatsapp WHERE id = ?').run(id);
+  if (result.changes === 0) return res.status(404).json({ error: 'Bulunamadı' });
+  res.json({ success: true });
+});
+
 export default router;

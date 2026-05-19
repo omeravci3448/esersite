@@ -54,6 +54,9 @@
                 <button class="nav-item" data-tab="faq">
                     <i class="fas fa-question-circle"></i> SSS
                 </button>
+                <button class="nav-item" data-tab="whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </button>
             </nav>
             <div class="sidebar-footer">
                 <a href="https://esericmimarlikmobilya.com/admin.html" target="_blank" style="color:#888; font-size:0.85rem; text-decoration:none; display:block; padding:0.5rem 0;">
@@ -179,17 +182,12 @@
                                 <label>Telefon</label>
                                 <input type="text" name="contact_phone" data-key="contact_phone">
                             </div>
-                            <div class="form-group">
-                                <label>WhatsApp Hattı 1 (sadece rakam, örn: 905543805135)</label>
-                                <input type="text" name="contact_whatsapp" data-key="contact_whatsapp">
-                            </div>
-                            <div class="form-group">
-                                <label>WhatsApp Hattı 2 (sadece rakam)</label>
-                                <input type="text" name="contact_whatsapp_2" data-key="contact_whatsapp_2">
-                            </div>
                             <div class="form-group full">
                                 <label>Adres</label>
                                 <input type="text" name="contact_address" data-key="contact_address">
+                            </div>
+                            <div class="form-group full">
+                                <small style="color:#888;">📱 WhatsApp hatlarını sol menüden <strong>WhatsApp</strong> sekmesi üzerinden yönetebilirsiniz.</small>
                             </div>
                         </div>
                     </div>
@@ -219,6 +217,20 @@
                 </div>
                 <div class="faq-list-admin" id="faq-list">
                     <!-- SSS yüklenecek -->
+                </div>
+            </section>
+
+            <!-- WhatsApp -->
+            <section id="whatsapp-tab" class="tab-content">
+                <div class="tab-header">
+                    <h3>WhatsApp Hatları</h3>
+                    <button class="btn-secondary" id="add-whatsapp-btn"><i class="fas fa-plus"></i> Yeni Hat Ekle</button>
+                </div>
+                <p style="color:#888; font-size:0.88rem; margin: 0 0 1rem;">
+                    Bu hatlar iletişim bölümündeki kart listesinde ve alt köşedeki yüzen menüde görünür.
+                </p>
+                <div class="faq-list-admin" id="whatsapp-list">
+                    <!-- WhatsApp items will be loaded here -->
                 </div>
             </section>
         </main>
@@ -252,6 +264,35 @@
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-ghost" id="close-service-modal">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- WhatsApp Modal -->
+    <div id="whatsapp-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="whatsapp-modal-title">WhatsApp Hattı</h3>
+            <form id="whatsapp-form">
+                <input type="hidden" id="whatsapp-id">
+                <div class="form-group">
+                    <label>Hat Adı / Etiket</label>
+                    <input type="text" id="whatsapp-name" placeholder="Örn: Fason Sipariş Hattı, Ömer Bey" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefon Numarası</label>
+                    <input type="text" id="whatsapp-number" placeholder="905543805135" required>
+                    <small style="color:#888; font-size:0.8rem; display:block; margin-top:4px;">
+                        Ülke kodu dahil. Örn: <code>905543805135</code>
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama</label>
+                    <input type="number" id="whatsapp-order" value="0" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-whatsapp-modal">İptal</button>
                     <button type="submit" class="btn-primary">Kaydet</button>
                 </div>
             </form>

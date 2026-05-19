@@ -64,6 +64,22 @@ db.exec(`
     order_index INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
+
+  CREATE TABLE IF NOT EXISTS whatsapp_contacts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    number TEXT NOT NULL,
+    order_index INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS fason_whatsapp (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    number TEXT NOT NULL,
+    order_index INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 const userCount = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
@@ -163,6 +179,28 @@ const defaultFasonContent = {
 const insertFasonContent = db.prepare('INSERT OR IGNORE INTO fason_content (key, value) VALUES (?, ?)');
 for (const [key, value] of Object.entries(defaultFasonContent)) {
   insertFasonContent.run(key, value);
+}
+
+const whatsappCount = db.prepare('SELECT COUNT(*) as c FROM whatsapp_contacts').get().c;
+if (whatsappCount === 0) {
+  const defaults = [
+    { name: 'Satış Hattı', number: '905543805135', order_index: 1 },
+    { name: 'Destek Hattı', number: '905069046819', order_index: 2 }
+  ];
+  const ins = db.prepare('INSERT INTO whatsapp_contacts (name, number, order_index) VALUES (?, ?, ?)');
+  for (const w of defaults) ins.run(w.name, w.number, w.order_index);
+  console.log(`[db] ${defaults.length} WhatsApp kontağı eklendi (ana site)`);
+}
+
+const fasonWhatsappCount = db.prepare('SELECT COUNT(*) as c FROM fason_whatsapp').get().c;
+if (fasonWhatsappCount === 0) {
+  const defaults = [
+    { name: 'Fason Sipariş Hattı', number: '905543805135', order_index: 1 },
+    { name: 'Teklif & Bilgi', number: '905069046819', order_index: 2 }
+  ];
+  const ins = db.prepare('INSERT INTO fason_whatsapp (name, number, order_index) VALUES (?, ?, ?)');
+  for (const w of defaults) ins.run(w.name, w.number, w.order_index);
+  console.log(`[db] ${defaults.length} WhatsApp kontağı eklendi (fason)`);
 }
 
 const fasonServicesCount = db.prepare('SELECT COUNT(*) as c FROM fason_services').get().c;

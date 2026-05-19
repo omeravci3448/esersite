@@ -87,6 +87,7 @@ function showDashboard() {
     loadGeneralContent();
     loadServices();
     loadFaq();
+    loadWhatsapp();
 }
 
 document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -126,7 +127,7 @@ document.querySelectorAll('.nav-item').forEach(btn => {
         document.querySelectorAll('.tab-content').forEach(s => s.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(`${tab}-tab`).classList.add('active');
-        const titles = { general: 'Genel Bilgiler', services: 'Hizmetler', faq: 'Sıkça Sorulan Sorular' };
+        const titles = { general: 'Genel Bilgiler', services: 'Hizmetler', faq: 'Sıkça Sorulan Sorular', whatsapp: 'WhatsApp Hatları' };
         document.getElementById('tab-title').innerText = titles[tab] || '';
     });
 });
@@ -410,6 +411,106 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
+
+// ───── WhatsApp (CRUD) ─────
+const whatsappList = document.getElementById('whatsapp-list');
+const whatsappModal = document.getElementById('whatsapp-modal');
+const whatsappForm = document.getElementById('whatsapp-form');
+
+async function loadWhatsapp() {
+    if (!whatsappList) return;
+    try {
+        const items = await api('/fason/whatsapp');
+        if (!items.length) {
+            whatsappList.innerHTML = '<p style="color:#888; padding:1.5rem; text-align:center;">Henüz WhatsApp hattı tanımlı değil.</p>';
+            return;
+        }
+        whatsappList.innerHTML = items.map(w => `
+            <div class="faq-admin-item">
+                <div class="faq-admin-header">
+                    <span class="faq-admin-q">
+                        <i class="fab fa-whatsapp" style="color:#25D366; margin-right:8px;"></i>
+                        ${escapeHtml(w.name)}
+                    </span>
+                    <div class="faq-admin-actions">
+                        <button class="btn-icon" onclick="editWhatsapp(${w.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-icon danger" onclick="deleteWhatsapp(${w.id})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <p class="faq-admin-a">${escapeHtml(w.number)}</p>
+                <small style="color:#999;">Sıralama: ${w.order_index}</small>
+            </div>
+        `).join('');
+    } catch (err) {
+        whatsappList.innerHTML = `<p style="color:#dc3545; padding:1.5rem;">WhatsApp hatları yüklenemedi: ${err.message}</p>`;
+    }
+}
+
+document.getElementById('add-whatsapp-btn')?.addEventListener('click', () => {
+    document.getElementById('whatsapp-modal-title').innerText = 'Yeni WhatsApp Hattı';
+    whatsappForm.reset();
+    document.getElementById('whatsapp-id').value = '';
+    document.getElementById('whatsapp-order').value = 0;
+    whatsappModal.classList.add('active');
+});
+
+document.getElementById('close-whatsapp-modal')?.addEventListener('click', () => {
+    whatsappModal.classList.remove('active');
+});
+
+window.editWhatsapp = async function (id) {
+    try {
+        const items = await api('/fason/whatsapp');
+        const w = items.find(x => x.id === id);
+        if (!w) return;
+        document.getElementById('whatsapp-modal-title').innerText = 'WhatsApp Hattı Düzenle';
+        document.getElementById('whatsapp-id').value = w.id;
+        document.getElementById('whatsapp-name').value = w.name;
+        document.getElementById('whatsapp-number').value = w.number;
+        document.getElementById('whatsapp-order').value = w.order_index || 0;
+        whatsappModal.classList.add('active');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+window.deleteWhatsapp = async function (id) {
+    if (!confirm('Bu WhatsApp hattını silmek istediğinize emin misiniz?')) return;
+    try {
+        await api(`/fason/whatsapp/${id}`, { method: 'DELETE' });
+        loadWhatsapp();
+        showToast('Hat silindi', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+whatsappForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('whatsapp-id').value;
+    const body = {
+        name: document.getElementById('whatsapp-name').value.trim(),
+        number: document.getElementById('whatsapp-number').value.replace(/[^\d]/g, ''),
+        order_index: Number(document.getElementById('whatsapp-order').value) || 0
+    };
+    if (!body.number) {
+        showToast('Geçerli bir telefon numarası girin', 'error');
+        return;
+    }
+    try {
+        if (id) {
+            await api(`/fason/whatsapp/${id}`, { method: 'PATCH', body: JSON.stringify(body) });
+            showToast('Hat güncellendi', 'success');
+        } else {
+            await api('/fason/whatsapp', { method: 'POST', body: JSON.stringify(body) });
+            showToast('Hat eklendi', 'success');
+        }
+        whatsappModal.classList.remove('active');
+        loadWhatsapp();
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+});
 
 // ───── Init ─────
 checkAuth();

@@ -60,6 +60,9 @@
                 <button class="nav-item" data-tab="faq">
                     <i class="fas fa-question-circle"></i> SSS
                 </button>
+                <button class="nav-item" data-tab="whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </button>
             </nav>
             <div class="sidebar-footer">
                 <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
@@ -162,6 +165,19 @@
                     <!-- FAQs will be loaded here -->
                 </div>
             </section>
+
+            <section id="whatsapp-tab" class="tab-content">
+                <div class="tab-header">
+                    <h3>WhatsApp Hatları</h3>
+                    <button class="btn-secondary" id="add-whatsapp-btn"><i class="fas fa-plus"></i> Yeni Hat Ekle</button>
+                </div>
+                <p style="color:#888; font-size:0.88rem; margin: 0 0 1rem;">
+                    Bu hatlar sitenin alt köşesindeki yüzen WhatsApp menüsünde ve iletişim bölümündeki kart listesinde görünür. Adı (örn. "Satış Hattı") ve numarası ayrı olarak gösterilir.
+                </p>
+                <div class="faq-list-admin" id="whatsapp-list">
+                    <!-- WhatsApp items will be loaded here -->
+                </div>
+            </section>
         </main>
     </div>
 
@@ -205,6 +221,38 @@
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-ghost" id="close-modal">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- WhatsApp Add/Edit Modal -->
+    <div id="whatsapp-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="whatsapp-modal-title">WhatsApp Hattı</h3>
+            <form id="whatsapp-form">
+                <input type="hidden" id="whatsapp-id">
+                <div class="form-group">
+                    <label>Hat Adı / Etiket</label>
+                    <input type="text" id="whatsapp-name" placeholder="Örn: Satış Hattı, Ömer Bey, Destek" required>
+                    <small style="color:#888; font-size:0.8rem; display:block; margin-top:4px;">
+                        Site ziyaretçisi bu metni görür, hangi numarayla konuşacağını bilir.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Telefon Numarası</label>
+                    <input type="text" id="whatsapp-number" placeholder="905543805135" required>
+                    <small style="color:#888; font-size:0.8rem; display:block; margin-top:4px;">
+                        Ülke kodu dahil, başında <code>+</code> veya boşluk olmadan. Örn: <code>905543805135</code>
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama (küçük rakam üstte)</label>
+                    <input type="number" id="whatsapp-order" value="0" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-whatsapp-modal">İptal</button>
                     <button type="submit" class="btn-primary">Kaydet</button>
                 </div>
             </form>

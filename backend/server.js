@@ -9,6 +9,7 @@ import collectionRoutes from './routes/collection.js';
 import faqRoutes from './routes/faq.js';
 import uploadRoutes from './routes/upload.js';
 import fasonRoutes from './routes/fason.js';
+import whatsappRoutes from './routes/whatsapp.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,6 +43,7 @@ app.use('/collection', collectionRoutes);
 app.use('/faq', faqRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/fason', fasonRoutes);
+app.use('/whatsapp', whatsappRoutes);
 
 app.use((err, req, res, next) => {
   console.error('[error]', err);

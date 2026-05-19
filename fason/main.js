@@ -13,8 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initFaqAccordion();
     initContactForm();
+    initFloatingWa();
     loadDynamicContent();
 });
+
+function initFloatingWa() {
+    const wrapper = document.querySelector('.floating-wa-wrapper');
+    const btn = wrapper?.querySelector('.floating-wa');
+    if (!wrapper || !btn) return;
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        wrapper.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) wrapper.classList.remove('open');
+    });
+}
 
 // ───── Navbar scroll behavior ─────
 function initNavbar() {
@@ -86,10 +100,11 @@ function initFaqAccordion() {
 // ───── Dynamic content from API ─────
 async function loadDynamicContent() {
     try {
-        const [content, services, faqs] = await Promise.allSettled([
+        const [content, services, faqs, whatsapp] = await Promise.allSettled([
             fetch(`${API_URL}/fason/content`).then(r => r.ok ? r.json() : null),
             fetch(`${API_URL}/fason/services`).then(r => r.ok ? r.json() : null),
-            fetch(`${API_URL}/fason/faq`).then(r => r.ok ? r.json() : null)
+            fetch(`${API_URL}/fason/faq`).then(r => r.ok ? r.json() : null),
+            fetch(`${API_URL}/fason/whatsapp`).then(r => r.ok ? r.json() : null)
         ]);
 
         if (content.status === 'fulfilled' && content.value) {
@@ -101,8 +116,52 @@ async function loadDynamicContent() {
         if (faqs.status === 'fulfilled' && Array.isArray(faqs.value) && faqs.value.length > 0) {
             renderFaq(faqs.value);
         }
+        if (whatsapp.status === 'fulfilled' && Array.isArray(whatsapp.value)) {
+            renderWhatsapp(whatsapp.value);
+        }
     } catch (err) {
         console.warn('[fason] Dinamik içerik yüklenemedi, statik içerik kullanılıyor:', err);
+    }
+}
+
+function formatPhoneNumber(num) {
+    const cleaned = String(num).replace(/[^\d]/g, '');
+    if (cleaned.length === 12 && cleaned.startsWith('90')) {
+        return `+${cleaned.slice(0, 2)} ${cleaned.slice(2, 5)} ${cleaned.slice(5, 8)} ${cleaned.slice(8, 10)} ${cleaned.slice(10, 12)}`;
+    }
+    if (cleaned.length === 11 && cleaned.startsWith('0')) {
+        return `${cleaned.slice(0, 4)} ${cleaned.slice(4, 7)} ${cleaned.slice(7, 9)} ${cleaned.slice(9, 11)}`;
+    }
+    return num;
+}
+
+function renderWhatsapp(contacts) {
+    const grid = document.getElementById('whatsapp-grid');
+    const floating = document.getElementById('floating-wa-menu');
+
+    if (grid) {
+        if (contacts.length === 0) {
+            grid.innerHTML = '<p style="color:#888;">WhatsApp kontağı tanımlı değil.</p>';
+        } else {
+            grid.innerHTML = contacts.map(c => `
+                <a href="https://wa.me/${encodeURIComponent(c.number)}" target="_blank" rel="noopener" class="wa-btn">
+                    <i class="fab fa-whatsapp"></i>
+                    <div class="wa-btn-text">
+                        <strong>${escapeHtml(c.name)}</strong>
+                        <span>${escapeHtml(formatPhoneNumber(c.number))}</span>
+                    </div>
+                </a>
+            `).join('');
+        }
+    }
+
+    if (floating) {
+        floating.innerHTML = contacts.map(c => `
+            <a href="https://wa.me/${encodeURIComponent(c.number)}" target="_blank" rel="noopener">
+                <strong>${escapeHtml(c.name)}</strong>
+                <span>${escapeHtml(formatPhoneNumber(c.number))}</span>
+            </a>
+        `).join('');
     }
 }
 
