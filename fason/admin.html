@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Eser Mobilya Fason | Yönetim Paneli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Login -->
+    <div id="login-screen" class="screen active">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Fason Yönetim Paneli</h1>
+                <p>Eser Mobilya Fason Kesim Sitesi Kontrolü</p>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="admin" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <div id="login-error" class="error-msg"></div>
+                <button type="submit" class="btn-primary">Giriş Yap</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="admin-dashboard" class="screen">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span style="font-family:'Outfit',sans-serif; font-weight:800; color:#f39221;">ESER FASON</span>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-tab="general">
+                    <i class="fas fa-home"></i> Genel Bilgiler
+                </button>
+                <button class="nav-item" data-tab="services">
+                    <i class="fas fa-cut"></i> Hizmetler
+                </button>
+                <button class="nav-item" data-tab="faq">
+                    <i class="fas fa-question-circle"></i> SSS
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="https://esericmimarlikmobilya.com/admin.html" target="_blank" style="color:#888; font-size:0.85rem; text-decoration:none; display:block; padding:0.5rem 0;">
+                    <i class="fas fa-external-link-alt"></i> Ana Site Paneli
+                </a>
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h2 id="tab-title">Genel Bilgiler</h2>
+                <div class="user-info">
+                    <span id="upload-status" class="upload-status" title="Yüklenmiş görsel sayısı"></span>
+                    <span id="user-display">admin</span>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+
+            <!-- Genel Bilgiler -->
+            <section id="general-tab" class="tab-content active">
+                <form id="general-form" class="admin-form">
+                    <div class="card">
+                        <h3>Hero Bölümü</h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>Hero Başlığı (HTML destekler — &lt;span&gt; ile renklendirme)</label>
+                                <input type="text" name="hero_title" data-key="hero_title">
+                            </div>
+                            <div class="form-group full">
+                                <label>Hero Alt Başlığı</label>
+                                <textarea name="hero_subtitle" data-key="hero_subtitle" rows="3"></textarea>
+                            </div>
+                            <div class="form-group full content-image-field">
+                                <label>Hero Arka Plan Görseli</label>
+                                <img class="content-image-preview" data-preview-for="hero_image" style="display:none;">
+                                <input type="text" name="hero_image" data-key="hero_image" placeholder="/uploads/...">
+                                <label class="file-upload-label" for="hero_image_file">
+                                    <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Yükle
+                                </label>
+                                <input type="file" id="hero_image_file" data-upload-for="hero_image" accept="image/*" hidden>
+                                <span class="upload-hint"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Tanıtım Bölümü</h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>Tanıtım Başlığı</label>
+                                <input type="text" name="intro_title" data-key="intro_title">
+                            </div>
+                            <div class="form-group full">
+                                <label>Tanıtım Metni</label>
+                                <textarea name="intro_text" data-key="intro_text" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Süreç (4 Adım)</h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>Süreç Başlığı</label>
+                                <input type="text" name="process_title" data-key="process_title">
+                            </div>
+                            <div class="form-group">
+                                <label>Adım 1</label>
+                                <input type="text" name="process_step_1" data-key="process_step_1">
+                            </div>
+                            <div class="form-group">
+                                <label>Adım 2</label>
+                                <input type="text" name="process_step_2" data-key="process_step_2">
+                            </div>
+                            <div class="form-group">
+                                <label>Adım 3</label>
+                                <input type="text" name="process_step_3" data-key="process_step_3">
+                            </div>
+                            <div class="form-group">
+                                <label>Adım 4</label>
+                                <input type="text" name="process_step_4" data-key="process_step_4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Malzemeler Bölümü</h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>Malzemeler Başlığı</label>
+                                <input type="text" name="materials_title" data-key="materials_title">
+                            </div>
+                            <div class="form-group full">
+                                <label>Malzemeler Metni</label>
+                                <textarea name="materials_text" data-key="materials_text" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>CTA / İletişim Çağrısı</h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>CTA Başlığı</label>
+                                <input type="text" name="cta_title" data-key="cta_title">
+                            </div>
+                            <div class="form-group full">
+                                <label>CTA Metni</label>
+                                <textarea name="cta_text" data-key="cta_text" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>İletişim Bilgileri</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>E-posta</label>
+                                <input type="email" name="contact_email" data-key="contact_email">
+                            </div>
+                            <div class="form-group">
+                                <label>Telefon</label>
+                                <input type="text" name="contact_phone" data-key="contact_phone">
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp Hattı 1 (sadece rakam, örn: 905543805135)</label>
+                                <input type="text" name="contact_whatsapp" data-key="contact_whatsapp">
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp Hattı 2 (sadece rakam)</label>
+                                <input type="text" name="contact_whatsapp_2" data-key="contact_whatsapp_2">
+                            </div>
+                            <div class="form-group full">
+                                <label>Adres</label>
+                                <input type="text" name="contact_address" data-key="contact_address">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Hizmetler -->
+            <section id="services-tab" class="tab-content">
+                <div class="tab-header">
+                    <h3>Fason Kesim Hizmetleri</h3>
+                    <button class="btn-secondary" id="add-service-btn"><i class="fas fa-plus"></i> Yeni Hizmet Ekle</button>
+                </div>
+                <div class="faq-list-admin" id="services-list">
+                    <!-- Hizmetler yüklenecek -->
+                </div>
+            </section>
+
+            <!-- SSS -->
+            <section id="faq-tab" class="tab-content">
+                <div class="tab-header">
+                    <h3>Sıkça Sorulan Sorular</h3>
+                    <button class="btn-secondary" id="add-faq-btn"><i class="fas fa-plus"></i> Yeni Soru Ekle</button>
+                </div>
+                <div class="faq-list-admin" id="faq-list">
+                    <!-- SSS yüklenecek -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Service Modal -->
+    <div id="service-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="service-modal-title">Hizmet Düzenle</h3>
+            <form id="service-form">
+                <input type="hidden" id="service-id">
+                <div class="form-group">
+                    <label>Başlık</label>
+                    <input type="text" id="service-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Açıklama</label>
+                    <textarea id="service-description" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>İkon (Font Awesome class)</label>
+                    <input type="text" id="service-icon" placeholder="fas fa-cut" value="fas fa-tools">
+                    <small style="color:#888; font-size:0.8rem; display:block; margin-top:4px;">
+                        Örnek: <code>fas fa-cut</code>, <code>fas fa-layer-group</code>, <code>fas fa-microchip</code>.
+                        Tüm ikonlar için: <a href="https://fontawesome.com/icons" target="_blank" style="color:#f39221;">fontawesome.com/icons</a>
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama (küçük rakam üstte)</label>
+                    <input type="number" id="service-order" value="0" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-service-modal">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FAQ Modal -->
+    <div id="faq-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="faq-modal-title">Soru Düzenle</h3>
+            <form id="faq-form">
+                <input type="hidden" id="faq-id">
+                <div class="form-group">
+                    <label>Soru</label>
+                    <input type="text" id="faq-question" required>
+                </div>
+                <div class="form-group">
+                    <label>Cevap</label>
+                    <textarea id="faq-answer" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama</label>
+                    <input type="number" id="faq-order" value="0" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-faq-modal">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

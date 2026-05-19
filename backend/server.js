@@ -8,12 +8,13 @@ import contentRoutes from './routes/content.js';
 import collectionRoutes from './routes/collection.js';
 import faqRoutes from './routes/faq.js';
 import uploadRoutes from './routes/upload.js';
+import fasonRoutes from './routes/fason.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = process.env.DATA_DIR || './data';
 
-const allowedOrigins = (process.env.CORS_ORIGINS || 'https://esericmimarlikmobilya.com,https://www.esericmimarlikmobilya.com')
+const allowedOrigins = (process.env.CORS_ORIGINS || 'https://esericmimarlikmobilya.com,https://www.esericmimarlikmobilya.com,https://fason.esericmimarlikmobilya.com')
   .split(',')
   .map(s => s.trim());
 
@@ -40,6 +41,7 @@ app.use('/content', contentRoutes);
 app.use('/collection', collectionRoutes);
 app.use('/faq', faqRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/fason', fasonRoutes);
 
 app.use((err, req, res, next) => {
   console.error('[error]', err);
