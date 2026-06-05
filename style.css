@@ -890,10 +890,16 @@ footer .logo {
     transition: var(--transition);
 }
 
-.floating-wa:hover .wa-menu {
+.floating-wa:hover .wa-menu,
+.floating-wa.open .wa-menu {
     opacity: 1;
     transform: translateY(0);
     pointer-events: all;
+}
+
+.wa-btn {
+    border: none;
+    cursor: pointer;
 }
 
 .wa-menu a {

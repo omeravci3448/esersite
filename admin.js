@@ -97,6 +97,38 @@ logoutBtn.addEventListener('click', () => {
     location.reload();
 });
 
+// Şifre Değiştir
+const changePasswordModal = document.getElementById('change-password-modal');
+const changePasswordForm = document.getElementById('change-password-form');
+document.getElementById('change-password-btn')?.addEventListener('click', () => {
+    changePasswordForm.reset();
+    changePasswordModal.classList.add('active');
+});
+document.getElementById('close-change-password')?.addEventListener('click', () => {
+    changePasswordModal.classList.remove('active');
+});
+changePasswordForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const oldPassword = document.getElementById('cp-old').value;
+    const newPassword = document.getElementById('cp-new').value;
+    const newPassword2 = document.getElementById('cp-new2').value;
+    if (newPassword.length < 8) {
+        showToast('Yeni şifre en az 8 karakter olmalı', 'error');
+        return;
+    }
+    if (newPassword !== newPassword2) {
+        showToast('Yeni şifreler eşleşmiyor', 'error');
+        return;
+    }
+    try {
+        await api('/auth/change-password', { method: 'POST', body: { oldPassword, newPassword } });
+        changePasswordModal.classList.remove('active');
+        showToast('Şifreniz güncellendi', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+});
+
 let uploadLimits = { maxFileSizeMB: 5, maxUploadCount: 100, currentCount: 0 };
 
 async function loadUploadLimits() {

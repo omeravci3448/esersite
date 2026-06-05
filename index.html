@@ -351,7 +351,21 @@
                     <div class="whatsapp-partners">
                         <h3>WhatsApp Destek Hattı</h3>
                         <div class="whatsapp-grid" id="whatsapp-grid">
-                            <!-- Dinamik içerik (API'dan yüklenir) -->
+                            <!-- API'dan yüklenir; API erişilemezse aşağıdaki statik yedek görünür -->
+                            <a href="https://wa.me/905543805135" target="_blank" rel="noopener" class="wa-card">
+                                <i class="fab fa-whatsapp"></i>
+                                <div class="wa-card-text">
+                                    <strong>Satış Hattı</strong>
+                                    <span>+90 554 380 51 35</span>
+                                </div>
+                            </a>
+                            <a href="https://wa.me/905069046819" target="_blank" rel="noopener" class="wa-card">
+                                <i class="fab fa-whatsapp"></i>
+                                <div class="wa-card-text">
+                                    <strong>Destek Hattı</strong>
+                                    <span>+90 506 904 68 19</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -416,11 +430,19 @@
     <!-- Floating WhatsApp -->
     <div class="floating-wa">
         <div class="wa-menu" id="floating-wa-menu">
-            <!-- Dinamik içerik (API'dan yüklenir) -->
+            <!-- API'dan yüklenir; API erişilemezse aşağıdaki statik yedek görünür -->
+            <a href="https://wa.me/905543805135" target="_blank" rel="noopener">
+                <strong>Satış Hattı</strong>
+                <span>+90 554 380 51 35</span>
+            </a>
+            <a href="https://wa.me/905069046819" target="_blank" rel="noopener">
+                <strong>Destek Hattı</strong>
+                <span>+90 506 904 68 19</span>
+            </a>
         </div>
-        <div class="wa-btn">
+        <button class="wa-btn" type="button" aria-label="WhatsApp ile iletişim">
             <i class="fab fa-whatsapp"></i>
-        </div>
+        </button>
     </div>
 
     <!-- KVKK Modal -->

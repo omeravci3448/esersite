@@ -351,6 +351,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Floating WhatsApp toggle (mobilde dokunma ile açılır, sadece hover değil)
+    const floatingWa = document.querySelector('.floating-wa');
+    const floatingWaBtn = floatingWa?.querySelector('.wa-btn');
+    if (floatingWa && floatingWaBtn) {
+        floatingWaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            floatingWa.classList.toggle('open');
+        });
+        document.addEventListener('click', (e) => {
+            if (!floatingWa.contains(e.target)) floatingWa.classList.remove('open');
+        });
+    }
+
     // Load dynamic content from API (silently fails if API is unavailable, keeping static fallback)
     loadDynamicContent().catch(err => console.warn('[content] API yüklenemedi, statik içerik kullanılıyor:', err));
 });
