@@ -81,6 +81,14 @@ db.exec(`
     order_index INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
+
+  CREATE TABLE IF NOT EXISTS references_list (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    icon TEXT DEFAULT 'fas fa-building',
+    order_index INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 const userCount = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
@@ -106,7 +114,14 @@ const defaultContent = {
   about_image: "/assets/images/hero.png",
   contact_email: "info@esericmimarlikmobilya.com",
   contact_phone: "+90 554 380 51 35",
-  contact_address: "Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar"
+  contact_address: "Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar",
+  social_instagram: "https://instagram.com/esermobilyamimarlik",
+  about_title: "Yılların Tecrübesiyle <br>Gelen Güven",
+  about_text: "Eser Mobilya olarak, ahşabın doğallığını modern tasarım çizgileriyle buluşturuyoruz. Üretim sürecimizde en kaliteli malzemeleri, usta ellerin titizliğiyle birleştirerek nesiller boyu kullanılacak eserler ortaya çıkarıyoruz.",
+  stat1_value: "25+",
+  stat1_label: "Yıllık Deneyim",
+  stat2_value: "1000+",
+  stat2_label: "Mutlu Müşteri"
 };
 
 const insertContent = db.prepare('INSERT OR IGNORE INTO content (key, value) VALUES (?, ?)');

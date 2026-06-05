@@ -162,6 +162,7 @@ function showDashboard() {
     loadCollection();
     loadFaq();
     loadWhatsapp();
+    loadReferences();
 }
 
 navItems.forEach(item => {
@@ -350,6 +351,7 @@ async function editItem(id) {
         document.getElementById('item-subtitle').value = item.subtitle || '';
         itemImageUrl.value = item.image_url;
         document.getElementById('item-category').value = item.category || 'Mutfak';
+        document.getElementById('item-order').value = item.order_index || 0;
         if (itemImagePreview) {
             itemImagePreview.src = imageUrl(item.image_url);
             itemImagePreview.style.display = 'block';
@@ -367,7 +369,8 @@ itemForm.addEventListener('submit', async (e) => {
         title: document.getElementById('item-title').value,
         subtitle: document.getElementById('item-subtitle').value,
         image_url: itemImageUrl.value,
-        category: document.getElementById('item-category').value
+        category: document.getElementById('item-category').value,
+        order_index: Number(document.getElementById('item-order').value) || 0
     };
     try {
         if (id) {
@@ -451,6 +454,7 @@ async function editFaq(id) {
         document.getElementById('faq-id').value = item.id;
         document.getElementById('faq-question').value = item.question;
         document.getElementById('faq-answer').value = item.answer;
+        document.getElementById('faq-order').value = item.order_index || 0;
         faqModal.classList.add('active');
     } catch (err) {
         showToast(err.message, 'error');
@@ -462,7 +466,8 @@ faqForm?.addEventListener('submit', async (e) => {
     const id = document.getElementById('faq-id').value;
     const payload = {
         question: document.getElementById('faq-question').value,
-        answer: document.getElementById('faq-answer').value
+        answer: document.getElementById('faq-answer').value,
+        order_index: Number(document.getElementById('faq-order').value) || 0
     };
     try {
         if (id) {
@@ -602,6 +607,98 @@ whatsappForm?.addEventListener('submit', async (e) => {
         }
         whatsappModal.classList.remove('active');
         loadWhatsapp();
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+});
+
+// ───── Referanslar (CRUD) ─────
+const referencesList = document.getElementById('references-list');
+const referenceModal = document.getElementById('reference-modal');
+const referenceForm = document.getElementById('reference-form');
+
+async function loadReferences() {
+    if (!referencesList) return;
+    try {
+        const items = await api('/references');
+        if (!items.length) {
+            referencesList.innerHTML = '<p style="color:#888; padding:1.5rem; text-align:center;">Henüz referans eklenmemiş. Eklenene kadar ana sayfadaki "Referanslarımız" bölümü gizli kalır.</p>';
+            return;
+        }
+        referencesList.innerHTML = items.map(r => `
+            <div class="faq-admin-item">
+                <div class="faq-admin-header">
+                    <span class="faq-admin-q"><i class="${escapeHtml(r.icon || 'fas fa-building')}" style="margin-right:8px; color:var(--primary);"></i>${escapeHtml(r.name)}</span>
+                    <div class="faq-admin-actions">
+                        <button class="btn-icon" onclick="editReference(${r.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-icon danger" onclick="deleteReference(${r.id})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <small style="color:#999;">Sıralama: ${r.order_index}</small>
+            </div>
+        `).join('');
+    } catch (err) {
+        referencesList.innerHTML = `<p style="color:#dc3545; padding:1.5rem;">Referanslar yüklenemedi: ${err.message}</p>`;
+    }
+}
+
+document.getElementById('add-reference-btn')?.addEventListener('click', () => {
+    document.getElementById('reference-modal-title').innerText = 'Yeni Referans';
+    referenceForm.reset();
+    document.getElementById('reference-id').value = '';
+    document.getElementById('reference-order').value = 0;
+    referenceModal.classList.add('active');
+});
+
+document.getElementById('close-reference-modal')?.addEventListener('click', () => {
+    referenceModal.classList.remove('active');
+});
+
+window.editReference = async function (id) {
+    try {
+        const items = await api('/references');
+        const r = items.find(x => x.id === id);
+        if (!r) return;
+        document.getElementById('reference-modal-title').innerText = 'Referans Düzenle';
+        document.getElementById('reference-id').value = r.id;
+        document.getElementById('reference-name').value = r.name;
+        document.getElementById('reference-icon').value = r.icon || 'fas fa-building';
+        document.getElementById('reference-order').value = r.order_index || 0;
+        referenceModal.classList.add('active');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+window.deleteReference = async function (id) {
+    if (!confirm('Bu referansı silmek istediğinize emin misiniz?')) return;
+    try {
+        await api(`/references/${id}`, { method: 'DELETE' });
+        loadReferences();
+        showToast('Referans silindi', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+referenceForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('reference-id').value;
+    const body = {
+        name: document.getElementById('reference-name').value.trim(),
+        icon: document.getElementById('reference-icon').value,
+        order_index: Number(document.getElementById('reference-order').value) || 0
+    };
+    try {
+        if (id) {
+            await api(`/references/${id}`, { method: 'PATCH', body });
+            showToast('Referans güncellendi', 'success');
+        } else {
+            await api('/references', { method: 'POST', body });
+            showToast('Referans eklendi', 'success');
+        }
+        referenceModal.classList.remove('active');
+        loadReferences();
     } catch (err) {
         showToast(err.message, 'error');
     }

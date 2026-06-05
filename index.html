@@ -295,29 +295,16 @@
         </div>
     </section>
 
-    <!-- References Section -->
-    <section id="references" class="references">
+    <!-- References Section (referans eklenince JS ile görünür olur) -->
+    <section id="references" class="references" style="display:none;">
         <div class="container">
             <div class="section-header">
                 <span class="subtitle">Güveninizle Büyüyoruz</span>
                 <h2>Referanslarımız</h2>
             </div>
             <div class="logos-slider">
-                <div class="logos-track">
-                    <!-- 1. Set of logos -->
-                    <div class="logo-item"><i class="fas fa-building"></i> <span>Prestij Konakları</span></div>
-                    <div class="logo-item"><i class="fas fa-hotel"></i> <span>Royal Garden Hotel</span></div>
-                    <div class="logo-item"><i class="fas fa-archway"></i> <span>Mavi Mimarlık</span></div>
-                    <div class="logo-item"><i class="fas fa-city"></i> <span>Özdemir İnşaat</span></div>
-                    <div class="logo-item"><i class="fas fa-couch"></i> <span>Elite Residence</span></div>
-                    <div class="logo-item"><i class="fas fa-university"></i> <span>Modern Art Office</span></div>
-                    <!-- 2. Set of logos (for infinite effect) -->
-                    <div class="logo-item"><i class="fas fa-building"></i> <span>Prestij Konakları</span></div>
-                    <div class="logo-item"><i class="fas fa-hotel"></i> <span>Royal Garden Hotel</span></div>
-                    <div class="logo-item"><i class="fas fa-archway"></i> <span>Mavi Mimarlık</span></div>
-                    <div class="logo-item"><i class="fas fa-city"></i> <span>Özdemir İnşaat</span></div>
-                    <div class="logo-item"><i class="fas fa-couch"></i> <span>Elite Residence</span></div>
-                    <div class="logo-item"><i class="fas fa-university"></i> <span>Modern Art Office</span></div>
+                <div class="logos-track" id="references-track">
+                    <!-- Referanslar admin panelinden eklenir; API'dan yüklenir -->
                 </div>
             </div>
         </div>
@@ -329,16 +316,16 @@
             <div class="about-content">
                 <div class="about-text reveal-left">
                     <span class="subtitle">Hakkımızda</span>
-                    <h2>Yılların Tecrübesiyle <br>Gelen Güven</h2>
-                    <p>Eser Mobilya olarak, ahşabın doğallığını modern tasarım çizgileriyle buluşturuyoruz. Üretim sürecimizde en kaliteli malzemeleri, usta ellerin titizliğiyle birleştirerek nesiller boyu kullanılacak eserler ortaya çıkarıyoruz.</p>
+                    <h2 data-content="about_title" data-html="true">Yılların Tecrübesiyle <br>Gelen Güven</h2>
+                    <p data-content="about_text">Eser Mobilya olarak, ahşabın doğallığını modern tasarım çizgileriyle buluşturuyoruz. Üretim sürecimizde en kaliteli malzemeleri, usta ellerin titizliğiyle birleştirerek nesiller boyu kullanılacak eserler ortaya çıkarıyoruz.</p>
                     <div class="stats">
                         <div class="stat-item">
-                            <h4>25+</h4>
-                            <span>Yıllık Deneyim</span>
+                            <h4 data-content="stat1_value">25+</h4>
+                            <span data-content="stat1_label">Yıllık Deneyim</span>
                         </div>
                         <div class="stat-item">
-                            <h4>1000+</h4>
-                            <span>Mutlu Müşteri</span>
+                            <h4 data-content="stat2_value">1000+</h4>
+                            <span data-content="stat2_label">Mutlu Müşteri</span>
                         </div>
                     </div>
                 </div>
@@ -364,8 +351,8 @@
                         <li><i class="fas fa-phone"></i> <span data-content="contact_phone">+90 554 380 51 35</span></li>
                     </ul>
                     <div class="social-links">
-                        <a href="https://instagram.com/esermobilyamimarlik" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/905543805135" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://instagram.com/esermobilyamimarlik" target="_blank" rel="noopener" aria-label="Instagram" data-content-href="social_instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/905543805135" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                     <div class="whatsapp-partners">
                         <h3>WhatsApp Destek Hattı</h3>

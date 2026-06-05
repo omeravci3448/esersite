@@ -13,11 +13,12 @@ function escapeHtml(s) {
 }
 
 async function loadDynamicContent() {
-    const [content, collection, faq, whatsapp] = await Promise.allSettled([
+    const [content, collection, faq, whatsapp, references] = await Promise.allSettled([
         fetch(`${API_URL}/content`).then(r => r.ok ? r.json() : null),
         fetch(`${API_URL}/collection`).then(r => r.ok ? r.json() : null),
         fetch(`${API_URL}/faq`).then(r => r.ok ? r.json() : null),
-        fetch(`${API_URL}/whatsapp`).then(r => r.ok ? r.json() : null)
+        fetch(`${API_URL}/whatsapp`).then(r => r.ok ? r.json() : null),
+        fetch(`${API_URL}/references`).then(r => r.ok ? r.json() : null)
     ]);
 
     if (content.status === 'fulfilled' && content.value) {
@@ -33,6 +34,14 @@ async function loadDynamicContent() {
                 el.textContent = value;
             }
         });
+        document.querySelectorAll('[data-content-href]').forEach(el => {
+            const value = content.value[el.dataset.contentHref];
+            if (typeof value === 'string' && value) el.href = value;
+        });
+    }
+
+    if (references.status === 'fulfilled' && Array.isArray(references.value)) {
+        renderReferences(references.value);
     }
 
     if (collection.status === 'fulfilled' && Array.isArray(collection.value) && collection.value.length > 0) {
@@ -123,6 +132,22 @@ function renderFaq(items) {
         `;
         list.appendChild(faqItem);
     });
+}
+
+function renderReferences(items) {
+    const track = document.getElementById('references-track');
+    const section = document.getElementById('references');
+    if (!track || !section) return;
+    if (!items.length) {
+        section.style.display = 'none';
+        return;
+    }
+    // Sonsuz kayan şerit efekti için liste iki kez basılır
+    const html = items.map(r => `
+        <div class="logo-item"><i class="${escapeHtml(r.icon || 'fas fa-building')}"></i> <span>${escapeHtml(r.name)}</span></div>
+    `).join('');
+    track.innerHTML = html + html;
+    section.style.display = '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {

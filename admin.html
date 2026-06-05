@@ -64,6 +64,9 @@
                 <button class="nav-item" data-tab="whatsapp">
                     <i class="fab fa-whatsapp"></i> WhatsApp
                 </button>
+                <button class="nav-item" data-tab="references">
+                    <i class="fas fa-handshake"></i> Referanslar
+                </button>
             </nav>
             <div class="sidebar-footer">
                 <a href="https://esericmimarlikmobilya.com" target="_blank" rel="noopener" class="sidebar-link">
@@ -135,6 +138,40 @@
                                 <label>Adres</label>
                                 <input type="text" name="contact_address" data-key="contact_address">
                             </div>
+                            <div class="form-group full">
+                                <label>Instagram Adresi (tam link)</label>
+                                <input type="text" name="social_instagram" data-key="social_instagram" placeholder="https://instagram.com/kullaniciadi">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Hakkımızda Bölümü</h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>Başlık (HTML destekler)</label>
+                                <input type="text" name="about_title" data-key="about_title">
+                            </div>
+                            <div class="form-group full">
+                                <label>Açıklama Metni</label>
+                                <textarea name="about_text" data-key="about_text" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>1. İstatistik Değeri (örn: 25+)</label>
+                                <input type="text" name="stat1_value" data-key="stat1_value">
+                            </div>
+                            <div class="form-group">
+                                <label>1. İstatistik Etiketi (örn: Yıllık Deneyim)</label>
+                                <input type="text" name="stat1_label" data-key="stat1_label">
+                            </div>
+                            <div class="form-group">
+                                <label>2. İstatistik Değeri (örn: 1000+)</label>
+                                <input type="text" name="stat2_value" data-key="stat2_value">
+                            </div>
+                            <div class="form-group">
+                                <label>2. İstatistik Etiketi (örn: Mutlu Müşteri)</label>
+                                <input type="text" name="stat2_label" data-key="stat2_label">
+                            </div>
                         </div>
                     </div>
 
@@ -183,6 +220,19 @@
                     <!-- WhatsApp items will be loaded here -->
                 </div>
             </section>
+
+            <section id="references-tab" class="tab-content">
+                <div class="tab-header">
+                    <h3>Referanslar</h3>
+                    <button class="btn-secondary" id="add-reference-btn"><i class="fas fa-plus"></i> Yeni Referans Ekle</button>
+                </div>
+                <p style="color:#888; font-size:0.88rem; margin: 0 0 1rem;">
+                    Ana sayfadaki "Referanslarımız" bölümünde kayan şerit olarak görünür. Hiç referans yoksa bu bölüm sitede gizlenir. Her referans için bir isim ve simge seçilir.
+                </p>
+                <div class="faq-list-admin" id="references-list">
+                    <!-- References will be loaded here -->
+                </div>
+            </section>
         </main>
     </div>
 
@@ -224,6 +274,10 @@
                         <option value="Özel Tasarım">Özel Tasarım</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Sıralama (küçük rakam önce)</label>
+                    <input type="number" id="item-order" value="0" min="0">
+                </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-ghost" id="close-modal">İptal</button>
                     <button type="submit" class="btn-primary">Kaydet</button>
@@ -251,6 +305,42 @@
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-ghost" id="close-change-password">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Referans Add/Edit Modal -->
+    <div id="reference-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="reference-modal-title">Referans</h3>
+            <form id="reference-form">
+                <input type="hidden" id="reference-id">
+                <div class="form-group">
+                    <label>Referans Adı (firma/kişi)</label>
+                    <input type="text" id="reference-name" placeholder="Örn: Prestij Konakları" required>
+                </div>
+                <div class="form-group">
+                    <label>Simge</label>
+                    <select id="reference-icon">
+                        <option value="fas fa-building">🏢 Bina</option>
+                        <option value="fas fa-hotel">🏨 Otel</option>
+                        <option value="fas fa-city">🏙️ Şehir / Site</option>
+                        <option value="fas fa-archway">🏛️ Mimarlık</option>
+                        <option value="fas fa-couch">🛋️ Mobilya / Konut</option>
+                        <option value="fas fa-store">🏬 Mağaza</option>
+                        <option value="fas fa-industry">🏭 Fabrika / Sanayi</option>
+                        <option value="fas fa-home">🏠 Ev</option>
+                        <option value="fas fa-handshake">🤝 İş Ortağı</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama (küçük rakam önce)</label>
+                    <input type="number" id="reference-order" value="0" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-reference-modal">İptal</button>
                     <button type="submit" class="btn-primary">Kaydet</button>
                 </div>
             </form>
@@ -302,6 +392,10 @@
                 <div class="form-group">
                     <label>Cevap</label>
                     <textarea id="faq-answer" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama (küçük rakam önce)</label>
+                    <input type="number" id="faq-order" value="0" min="0">
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-ghost" id="close-faq-modal">İptal</button>
