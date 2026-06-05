@@ -12,6 +12,7 @@ import fasonRoutes from './routes/fason.js';
 import whatsappRoutes from './routes/whatsapp.js';
 
 const app = express();
+app.set('trust proxy', 1); // Coolify/Traefik reverse proxy arkasında doğru istemci IP'si için
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = process.env.DATA_DIR || './data';
 
@@ -19,10 +20,12 @@ const allowedOrigins = (process.env.CORS_ORIGINS || 'https://esericmimarlikmobil
   .split(',')
   .map(s => s.trim());
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 app.use(cors({
   origin: (origin, cb) => {
     if (!origin) return cb(null, true);
-    if (allowedOrigins.includes(origin) || origin.startsWith('http://localhost')) {
+    if (allowedOrigins.includes(origin) || (isDev && origin.startsWith('http://localhost'))) {
       return cb(null, true);
     }
     cb(new Error('CORS: origin izinli değil'));

@@ -1,6 +1,14 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'change-me-in-production';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET || JWT_SECRET.length < 32) {
+  throw new Error(
+    'JWT_SECRET ortam değişkeni zorunludur ve en az 32 karakter olmalıdır. ' +
+    'Coolify > Environment Variables alanına güçlü rastgele bir değer ekleyin (örn: openssl rand -hex 32).'
+  );
+}
+
+const TOKEN_TTL = process.env.TOKEN_TTL || '1d';
 
 export function requireAuth(req, res, next) {
   const header = req.headers.authorization;
@@ -18,5 +26,5 @@ export function requireAuth(req, res, next) {
 }
 
 export function signToken(payload) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: TOKEN_TTL });
 }

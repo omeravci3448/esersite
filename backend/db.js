@@ -2,6 +2,7 @@ import Database from 'better-sqlite3';
 import bcrypt from 'bcryptjs';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 
 const DATA_DIR = process.env.DATA_DIR || './data';
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -85,12 +86,17 @@ db.exec(`
 const userCount = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
 if (userCount === 0) {
   const defaultUser = process.env.DEFAULT_ADMIN_USER || 'admin';
-  const defaultPass = process.env.DEFAULT_ADMIN_PASS || 'esermobilya2026';
+  const defaultPass = process.env.DEFAULT_ADMIN_PASS || crypto.randomBytes(12).toString('base64url');
   const hash = bcrypt.hashSync(defaultPass, 10);
   db.prepare('INSERT INTO users (username, password_hash, role, full_name) VALUES (?, ?, ?, ?)').run(
     defaultUser, hash, 'root', 'Yönetici'
   );
-  console.log(`[db] Default admin created → username: ${defaultUser}`);
+  console.log(`[db] Yönetici hesabı oluşturuldu → kullanıcı adı: ${defaultUser}`);
+  if (!process.env.DEFAULT_ADMIN_PASS) {
+    console.log('[db] ⚠️ DEFAULT_ADMIN_PASS ayarlı değildi, geçici rastgele şifre üretildi:');
+    console.log(`[db] ⚠️ GEÇİCİ ŞİFRE: ${defaultPass}`);
+    console.log('[db] ⚠️ Panele girip "Şifre Değiştir" ile hemen değiştirin veya env değişkenini ayarlayıp yeniden kurun.');
+  }
 }
 
 const defaultContent = {

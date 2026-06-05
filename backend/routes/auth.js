@@ -1,11 +1,20 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
+import rateLimit from 'express-rate-limit';
 import db from '../db.js';
 import { signToken, requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
-router.post('/login', (req, res) => {
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Çok fazla giriş denemesi yapıldı. Lütfen 15 dakika sonra tekrar deneyin.' }
+});
+
+router.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: 'Kullanıcı adı ve şifre gerekli' });
@@ -23,8 +32,8 @@ router.post('/login', (req, res) => {
 
 router.post('/change-password', requireAuth, (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  if (!oldPassword || !newPassword || newPassword.length < 6) {
-    return res.status(400).json({ error: 'Yeni şifre en az 6 karakter olmalı' });
+  if (!oldPassword || !newPassword || newPassword.length < 8) {
+    return res.status(400).json({ error: 'Yeni şifre en az 8 karakter olmalı' });
   }
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
   if (!user || !bcrypt.compareSync(oldPassword, user.password_hash)) {
