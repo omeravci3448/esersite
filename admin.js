@@ -271,7 +271,7 @@ async function loadCollection() {
             const card = document.createElement('div');
             card.className = 'item-card';
             card.innerHTML = `
-                <img src="${imageUrl(item.image_url)}" alt="${escapeHtml(item.title)}">
+                <img src="${escapeHtml(imageUrl(item.image_url))}" alt="${escapeHtml(item.title)}">
                 <div class="item-info">
                     <h4>${escapeHtml(item.title || 'Başlıksız')}</h4>
                     <p>${escapeHtml(item.category || '')} ${item.subtitle ? '- ' + escapeHtml(item.subtitle) : ''}</p>

@@ -18,13 +18,15 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "FurnitureStore"],
       "name": "Eser Mobilya & İç Mekan Tasarım",
       "image": "https://esericmimarlikmobilya.com/assets/images/hero.png",
       "logo": "https://esericmimarlikmobilya.com/assets/images/logo.png",
       "@id": "https://esericmimarlikmobilya.com/",
       "url": "https://esericmimarlikmobilya.com/",
       "telephone": "+905543805135",
+      "email": "info@esericmimarlikmobilya.com",
+      "priceRange": "₺₺",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Veysel Karani Mahallesi 1135. Sokak No: 15/A",
@@ -38,6 +40,13 @@
         "latitude": 38.7758,
         "longitude": 30.5186
       },
+      "areaServed": "Afyonkarahisar",
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "09:00",
+        "closes": "19:00"
+      }],
       "sameAs": [
         "https://instagram.com/esermobilyamimarlik"
       ],
@@ -56,10 +65,20 @@
     </script>
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Eser Mobilya & İç Mekan Tasarım">
+    <meta property="og:locale" content="tr_TR">
     <meta property="og:url" content="https://esericmimarlikmobilya.com/">
     <meta property="og:title" content="Eser Mobilya & İç Mekan Tasarım | Afyon Mobilya, Mutfak Dolabı, TV Ünitesi, Gardırop">
     <meta property="og:description" content="Afyon mobilya sektöründe öncü Eser Mobilya & İç Mekan Tasarım. Mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı imalatında Afyonkarahisar'ın güvenilir markası.">
     <meta property="og:image" content="https://esericmimarlikmobilya.com/assets/images/hero.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Eser Mobilya - Afyonkarahisar özel mobilya imalatı">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Eser Mobilya & İç Mekan Tasarım | Afyon Mobilya, Mutfak Dolabı, Gardırop">
+    <meta name="twitter:description" content="Afyon'da özel ölçü mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı imalatı. Eser Mobilya & İç Mekan Tasarım.">
+    <meta name="twitter:image" content="https://esericmimarlikmobilya.com/assets/images/hero.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,7 +125,7 @@
             <img src="assets/images/hero.png" alt="Eser Mobilya & İç Mekan Tasarım" data-content="hero_image">
         </div>
         <div class="hero-content container">
-            <h1 class="reveal" data-content="hero_title" data-html="true">Afyonkarahisar'da Özel <br><span>Mobilya İmalatı</span></h1>
+            <h1 class="reveal" data-content="hero_title" data-html="true">Afyonkarahisar'da Özel <br><span>Mobilya &amp; Mutfak Dolabı İmalatı</span></h1>
             <p class="reveal" data-content="hero_subtitle">Afyon mobilya sektörünün öncü markası Eser Mobilya & İç Mekan Tasarım ile hayallerinizi gerçeğe dönüştürüyoruz. Özel ölçü mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı imalatında Afyonkarahisar'daki en güvenilir çözüm ortağınız.</p>
             <div class="hero-btns reveal">
                 <a href="#collection" class="btn primary">Koleksiyonu İncele</a>

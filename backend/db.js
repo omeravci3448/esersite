@@ -100,7 +100,7 @@ if (userCount === 0) {
 }
 
 const defaultContent = {
-  hero_title: "Afyonkarahisar'da Özel <span>Mobilya İmalatı</span>",
+  hero_title: "Afyonkarahisar'da Özel <span>Mobilya & Mutfak Dolabı İmalatı</span>",
   hero_subtitle: "Afyon mobilya sektörünün öncü markası Eser Mobilya & İç Mekan Tasarım ile hayallerinizi gerçeğe dönüştürüyoruz. Özel ölçü mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı imalatında Afyonkarahisar'daki en güvenilir çözüm ortağınız.",
   hero_image: "/assets/images/hero.png",
   about_image: "/assets/images/hero.png",
@@ -161,11 +161,11 @@ if (faqCount === 0) {
 }
 
 const defaultFasonContent = {
-  hero_title: "Afyon'da <span>Profesyonel Fason Kesim</span>",
+  hero_title: "Afyon'da <span>Profesyonel Fason Kesim & Ebatlama</span>",
   hero_subtitle: "Mobilyacılar, marangozlar ve atölyeler için hassas ölçülerde MDF, sunta ve melamin kesim. Kenar bantlama, CNC işleme ve özel parça üretimi tek elden, hızlı teslimat ile.",
   hero_image: "/assets/images/hero.png",
   intro_title: "Fason Kesim Nedir? Kimler İçin?",
-  intro_text: "Fason kesim, mobilyacıların ihtiyaç duyduğu MDF, melamin ve sunta panelleri istedikleri ölçü, açı ve özelliklerde kestirip teslim almasıdır. Kendi atölyenizde montajı yapmak için parça parça hazır levha tedarik etmenize gerek kalmaz; siz sadece ölçüyü gönderirsiniz, biz birebir keser, kenar bantını çekeriz. Hız, hassasiyet ve tutarlı kalite için doğru adres.",
+  intro_text: "Fason kesim (ebatlama), mobilyacıların ihtiyaç duyduğu MDF, melamin ve sunta panelleri istedikleri ölçü, açı ve özelliklerde kestirip teslim almasıdır. Kendi atölyenizde montajı yapmak için levhaları parça parça hazırlamanıza gerek kalmaz; siz sadece ölçüyü gönderirsiniz, biz birebir keser, kenar bantını çeker, montaja hazır mutfak dolabı gövdesi, kapak ve modülleri teslim ederiz. Hız, hassasiyet ve tutarlı kalite için doğru adres.",
   process_title: "Nasıl Çalışıyoruz?",
   process_step_1: "Ölçü ve detayları WhatsApp veya e-posta ile gönderin",
   process_step_2: "Aynı gün içinde fiyat teklifini iletelim",

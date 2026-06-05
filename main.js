@@ -98,7 +98,7 @@ function renderCollection(items) {
         card.className = 'collection-item reveal active';
         card.innerHTML = `
             <div class="item-img">
-                <img src="${apiImageUrl(item.image_url)}" alt="${escapeHtml(item.title)}">
+                <img src="${escapeHtml(apiImageUrl(item.image_url))}" alt="${escapeHtml(item.title)}">
                 <div class="overlay"><a href="#" class="view-btn">İncele</a></div>
             </div>
             <div class="item-info">

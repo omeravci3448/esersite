@@ -9,6 +9,11 @@
     --border: #e2e8f0;
     --danger: #ef4444;
     --success: #10b981;
+    /* Aliaslar (bazı bileşenler bu adları kullanıyor) */
+    --muted: #64748b;
+    --bg: #f1f5f9;
+    --text: #0f172a;
+    --card: #ffffff;
 }
 
 * {
@@ -576,3 +581,65 @@ input:focus, textarea:focus {
 #admin-toast.toast-info {
     border-left: 4px solid var(--primary);
 }
+
+/* CRUD liste kartları (FAQ, Hizmet, WhatsApp) */
+.faq-admin-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+}
+.faq-admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.faq-admin-q {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.98rem;
+}
+.faq-admin-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.faq-admin-actions .btn-icon {
+    flex: none;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.faq-admin-a {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 6px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+.btn-icon.danger { color: var(--danger); }
+.btn-icon.danger:hover {
+    background: #fef2f2;
+    border-color: #fee2e2;
+}
+
+/* Sidebar ek linkler (Siteyi Görüntüle, Şifre Değiştir, Ana Site Paneli) */
+.sidebar-link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-family: inherit;
+    padding: 0.55rem 0;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.sidebar-link:hover { color: var(--primary); }
