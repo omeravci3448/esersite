@@ -163,6 +163,8 @@ function showDashboard() {
     loadFaq();
     loadWhatsapp();
     loadReferences();
+    loadServices();
+    loadStats();
 }
 
 navItems.forEach(item => {
@@ -699,6 +701,193 @@ referenceForm?.addEventListener('submit', async (e) => {
         }
         referenceModal.classList.remove('active');
         loadReferences();
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+});
+
+// ───── Hizmetler (CRUD) ─────
+const servicesList = document.getElementById('services-list');
+const serviceModal = document.getElementById('service-modal');
+const serviceForm = document.getElementById('service-form');
+
+async function loadServices() {
+    if (!servicesList) return;
+    try {
+        const items = await api('/services');
+        if (!items.length) {
+            servicesList.innerHTML = '<p style="color:#888; padding:1.5rem; text-align:center;">Henüz hizmet eklenmemiş.</p>';
+            return;
+        }
+        servicesList.innerHTML = items.map(s => `
+            <div class="faq-admin-item">
+                <div class="faq-admin-header">
+                    <span class="faq-admin-q"><i class="${escapeHtml(s.icon || 'fas fa-tools')}" style="margin-right:8px; color:var(--primary);"></i>${escapeHtml(s.title)}</span>
+                    <div class="faq-admin-actions">
+                        <button class="btn-icon" onclick="editService(${s.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-icon danger" onclick="deleteService(${s.id})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <p class="faq-admin-a">${escapeHtml(s.description || '')}</p>
+                <small style="color:#999;">Sıralama: ${s.order_index}</small>
+            </div>
+        `).join('');
+    } catch (err) {
+        servicesList.innerHTML = `<p style="color:#dc3545; padding:1.5rem;">Hizmetler yüklenemedi: ${err.message}</p>`;
+    }
+}
+
+document.getElementById('add-service-btn')?.addEventListener('click', () => {
+    document.getElementById('service-modal-title').innerText = 'Yeni Hizmet';
+    serviceForm.reset();
+    document.getElementById('service-id').value = '';
+    document.getElementById('service-order').value = 0;
+    serviceModal.classList.add('active');
+});
+
+document.getElementById('close-service-modal')?.addEventListener('click', () => {
+    serviceModal.classList.remove('active');
+});
+
+window.editService = async function (id) {
+    try {
+        const items = await api('/services');
+        const s = items.find(x => x.id === id);
+        if (!s) return;
+        document.getElementById('service-modal-title').innerText = 'Hizmet Düzenle';
+        document.getElementById('service-id').value = s.id;
+        document.getElementById('service-title').value = s.title;
+        document.getElementById('service-description').value = s.description || '';
+        document.getElementById('service-icon').value = s.icon || 'fas fa-tools';
+        document.getElementById('service-order').value = s.order_index || 0;
+        serviceModal.classList.add('active');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+window.deleteService = async function (id) {
+    if (!confirm('Bu hizmeti silmek istediğinize emin misiniz?')) return;
+    try {
+        await api(`/services/${id}`, { method: 'DELETE' });
+        loadServices();
+        showToast('Hizmet silindi', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+serviceForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('service-id').value;
+    const body = {
+        title: document.getElementById('service-title').value.trim(),
+        description: document.getElementById('service-description').value.trim(),
+        icon: document.getElementById('service-icon').value,
+        order_index: Number(document.getElementById('service-order').value) || 0
+    };
+    try {
+        if (id) {
+            await api(`/services/${id}`, { method: 'PATCH', body });
+            showToast('Hizmet güncellendi', 'success');
+        } else {
+            await api('/services', { method: 'POST', body });
+            showToast('Hizmet eklendi', 'success');
+        }
+        serviceModal.classList.remove('active');
+        loadServices();
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+});
+
+// ───── İstatistikler (CRUD) ─────
+const statsList = document.getElementById('stats-list');
+const statModal = document.getElementById('stat-modal');
+const statForm = document.getElementById('stat-form');
+
+async function loadStats() {
+    if (!statsList) return;
+    try {
+        const items = await api('/stats');
+        if (!items.length) {
+            statsList.innerHTML = '<p style="color:#888; padding:1.5rem; text-align:center;">Henüz istatistik eklenmemiş.</p>';
+            return;
+        }
+        statsList.innerHTML = items.map(s => `
+            <div class="faq-admin-item">
+                <div class="faq-admin-header">
+                    <span class="faq-admin-q"><strong style="color:var(--primary); margin-right:8px;">${escapeHtml(s.value)}</strong>${escapeHtml(s.label)}</span>
+                    <div class="faq-admin-actions">
+                        <button class="btn-icon" onclick="editStat(${s.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-icon danger" onclick="deleteStat(${s.id})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <small style="color:#999;">Sıralama: ${s.order_index}</small>
+            </div>
+        `).join('');
+    } catch (err) {
+        statsList.innerHTML = `<p style="color:#dc3545; padding:1.5rem;">İstatistikler yüklenemedi: ${err.message}</p>`;
+    }
+}
+
+document.getElementById('add-stat-btn')?.addEventListener('click', () => {
+    document.getElementById('stat-modal-title').innerText = 'Yeni İstatistik';
+    statForm.reset();
+    document.getElementById('stat-id').value = '';
+    document.getElementById('stat-order').value = 0;
+    statModal.classList.add('active');
+});
+
+document.getElementById('close-stat-modal')?.addEventListener('click', () => {
+    statModal.classList.remove('active');
+});
+
+window.editStat = async function (id) {
+    try {
+        const items = await api('/stats');
+        const s = items.find(x => x.id === id);
+        if (!s) return;
+        document.getElementById('stat-modal-title').innerText = 'İstatistik Düzenle';
+        document.getElementById('stat-id').value = s.id;
+        document.getElementById('stat-value').value = s.value;
+        document.getElementById('stat-label').value = s.label;
+        document.getElementById('stat-order').value = s.order_index || 0;
+        statModal.classList.add('active');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+window.deleteStat = async function (id) {
+    if (!confirm('Bu istatistiği silmek istediğinize emin misiniz?')) return;
+    try {
+        await api(`/stats/${id}`, { method: 'DELETE' });
+        loadStats();
+        showToast('İstatistik silindi', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
+statForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('stat-id').value;
+    const body = {
+        value: document.getElementById('stat-value').value.trim(),
+        label: document.getElementById('stat-label').value.trim(),
+        order_index: Number(document.getElementById('stat-order').value) || 0
+    };
+    try {
+        if (id) {
+            await api(`/stats/${id}`, { method: 'PATCH', body });
+            showToast('İstatistik güncellendi', 'success');
+        } else {
+            await api('/stats', { method: 'POST', body });
+            showToast('İstatistik eklendi', 'success');
+        }
+        statModal.classList.remove('active');
+        loadStats();
     } catch (err) {
         showToast(err.message, 'error');
     }

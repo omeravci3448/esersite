@@ -67,6 +67,9 @@
                 <button class="nav-item" data-tab="references">
                     <i class="fas fa-handshake"></i> Referanslar
                 </button>
+                <button class="nav-item" data-tab="stats">
+                    <i class="fas fa-chart-simple"></i> İstatistikler
+                </button>
             </nav>
             <div class="sidebar-footer">
                 <a href="https://esericmimarlikmobilya.com" target="_blank" rel="noopener" class="sidebar-link">
@@ -139,6 +142,13 @@
                                 <input type="text" name="contact_address" data-key="contact_address">
                             </div>
                             <div class="form-group full">
+                                <label>Harita Konumu</label>
+                                <input type="text" name="map_query" data-key="map_query" placeholder="Adres veya enlem,boylam (örn: 38.7758,30.5186)">
+                                <small style="color:#888; font-size:0.8rem; display:block; margin-top:4px;">
+                                    Harita bu konumu gösterir. Boş bırakırsanız yukarıdaki adres kullanılır. Tam pin için Google Haritalar'da dükkânınıza sağ tıklayıp çıkan <strong>enlem,boylam</strong> değerini buraya yapıştırın.
+                                </small>
+                            </div>
+                            <div class="form-group full">
                                 <label>Instagram Adresi (tam link)</label>
                                 <input type="text" name="social_instagram" data-key="social_instagram" placeholder="https://instagram.com/kullaniciadi">
                             </div>
@@ -156,21 +166,8 @@
                                 <label>Açıklama Metni</label>
                                 <textarea name="about_text" data-key="about_text" rows="4"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label>1. İstatistik Değeri (örn: 25+)</label>
-                                <input type="text" name="stat1_value" data-key="stat1_value">
-                            </div>
-                            <div class="form-group">
-                                <label>1. İstatistik Etiketi (örn: Yıllık Deneyim)</label>
-                                <input type="text" name="stat1_label" data-key="stat1_label">
-                            </div>
-                            <div class="form-group">
-                                <label>2. İstatistik Değeri (örn: 1000+)</label>
-                                <input type="text" name="stat2_value" data-key="stat2_value">
-                            </div>
-                            <div class="form-group">
-                                <label>2. İstatistik Etiketi (örn: Mutlu Müşteri)</label>
-                                <input type="text" name="stat2_label" data-key="stat2_label">
+                            <div class="form-group full">
+                                <small style="color:#888;">📊 İstatistikleri (25+ Yıl, 1000+ Müşteri gibi) sol menüdeki <strong>İstatistikler</strong> sekmesinden ekleyip düzenleyebilirsiniz.</small>
                             </div>
                         </div>
                     </div>
@@ -192,9 +189,28 @@
             </section>
 
             <section id="services-tab" class="tab-content">
-                <div class="card">
+                <div class="tab-header">
                     <h3>Hizmetler</h3>
-                    <p style="color:#888; font-size:0.9rem;">Hizmet kartları (Özel İmalat, Projelendirme, Montaj & Servis) şimdilik sabit metinler olarak yönetilmektedir. Değişiklik için site yöneticisine danışın.</p>
+                    <button class="btn-secondary" id="add-service-btn"><i class="fas fa-plus"></i> Yeni Hizmet Ekle</button>
+                </div>
+                <p style="color:#888; font-size:0.88rem; margin: 0 0 1rem;">
+                    Ana sayfadaki "Neler Yapıyoruz?" bölümündeki kartlar. Her hizmet için simge, başlık ve açıklama girilir.
+                </p>
+                <div class="faq-list-admin" id="services-list">
+                    <!-- Hizmetler yüklenecek -->
+                </div>
+            </section>
+
+            <section id="stats-tab" class="tab-content">
+                <div class="tab-header">
+                    <h3>İstatistikler</h3>
+                    <button class="btn-secondary" id="add-stat-btn"><i class="fas fa-plus"></i> Yeni İstatistik Ekle</button>
+                </div>
+                <p style="color:#888; font-size:0.88rem; margin: 0 0 1rem;">
+                    Hakkımızda bölümünde gösterilen rakamlar (örn: "25+ Yıllık Deneyim"). İstediğiniz kadar ekleyebilirsiniz.
+                </p>
+                <div class="faq-list-admin" id="stats-list">
+                    <!-- İstatistikler yüklenecek -->
                 </div>
             </section>
 
@@ -305,6 +321,72 @@
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-ghost" id="close-change-password">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hizmet Add/Edit Modal -->
+    <div id="service-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="service-modal-title">Hizmet</h3>
+            <form id="service-form">
+                <input type="hidden" id="service-id">
+                <div class="form-group">
+                    <label>Başlık</label>
+                    <input type="text" id="service-title" placeholder="Örn: Özel Mobilya İmalatı" required>
+                </div>
+                <div class="form-group">
+                    <label>Açıklama</label>
+                    <textarea id="service-description" rows="3" placeholder="Kısa açıklama"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Simge</label>
+                    <select id="service-icon">
+                        <option value="fas fa-hammer">🔨 Çekiç (İmalat)</option>
+                        <option value="fas fa-pencil-ruler">📐 Cetvel (Projelendirme)</option>
+                        <option value="fas fa-tools">🛠️ Aletler (Montaj/Servis)</option>
+                        <option value="fas fa-couch">🛋️ Koltuk (Mobilya)</option>
+                        <option value="fas fa-ruler-combined">📏 Ölçü</option>
+                        <option value="fas fa-truck">🚚 Teslimat</option>
+                        <option value="fas fa-paint-roller">🎨 Boya / Lake</option>
+                        <option value="fas fa-tree">🌳 Ahşap</option>
+                        <option value="fas fa-star">⭐ Yıldız</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama (küçük rakam önce)</label>
+                    <input type="number" id="service-order" value="0" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-service-modal">İptal</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- İstatistik Add/Edit Modal -->
+    <div id="stat-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="stat-modal-title">İstatistik</h3>
+            <form id="stat-form">
+                <input type="hidden" id="stat-id">
+                <div class="form-group">
+                    <label>Değer (örn: 25+, 1000+, %100)</label>
+                    <input type="text" id="stat-value" placeholder="25+" required>
+                </div>
+                <div class="form-group">
+                    <label>Etiket (örn: Yıllık Deneyim)</label>
+                    <input type="text" id="stat-label" placeholder="Yıllık Deneyim" required>
+                </div>
+                <div class="form-group">
+                    <label>Sıralama (küçük rakam önce)</label>
+                    <input type="number" id="stat-order" value="0" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="close-stat-modal">İptal</button>
                     <button type="submit" class="btn-primary">Kaydet</button>
                 </div>
             </form>

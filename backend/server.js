@@ -11,6 +11,8 @@ import uploadRoutes from './routes/upload.js';
 import fasonRoutes from './routes/fason.js';
 import whatsappRoutes from './routes/whatsapp.js';
 import referencesRoutes from './routes/references.js';
+import statsRoutes from './routes/stats.js';
+import servicesRoutes from './routes/services.js';
 
 const app = express();
 app.set('trust proxy', 1); // Coolify/Traefik reverse proxy arkasında doğru istemci IP'si için
@@ -49,6 +51,8 @@ app.use('/upload', uploadRoutes);
 app.use('/fason', fasonRoutes);
 app.use('/whatsapp', whatsappRoutes);
 app.use('/references', referencesRoutes);
+app.use('/stats', statsRoutes);
+app.use('/services', servicesRoutes);
 
 app.use((err, req, res, next) => {
   console.error('[error]', err);

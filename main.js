@@ -13,12 +13,14 @@ function escapeHtml(s) {
 }
 
 async function loadDynamicContent() {
-    const [content, collection, faq, whatsapp, references] = await Promise.allSettled([
+    const [content, collection, faq, whatsapp, references, stats, services] = await Promise.allSettled([
         fetch(`${API_URL}/content`).then(r => r.ok ? r.json() : null),
         fetch(`${API_URL}/collection`).then(r => r.ok ? r.json() : null),
         fetch(`${API_URL}/faq`).then(r => r.ok ? r.json() : null),
         fetch(`${API_URL}/whatsapp`).then(r => r.ok ? r.json() : null),
-        fetch(`${API_URL}/references`).then(r => r.ok ? r.json() : null)
+        fetch(`${API_URL}/references`).then(r => r.ok ? r.json() : null),
+        fetch(`${API_URL}/stats`).then(r => r.ok ? r.json() : null),
+        fetch(`${API_URL}/services`).then(r => r.ok ? r.json() : null)
     ]);
 
     if (content.status === 'fulfilled' && content.value) {
@@ -38,10 +40,19 @@ async function loadDynamicContent() {
             const value = content.value[el.dataset.contentHref];
             if (typeof value === 'string' && value) el.href = value;
         });
+        applyMap(content.value.map_query || content.value.contact_address);
     }
 
     if (references.status === 'fulfilled' && Array.isArray(references.value)) {
         renderReferences(references.value);
+    }
+
+    if (stats.status === 'fulfilled' && Array.isArray(stats.value) && stats.value.length > 0) {
+        renderStats(stats.value);
+    }
+
+    if (services.status === 'fulfilled' && Array.isArray(services.value) && services.value.length > 0) {
+        renderMainServices(services.value);
     }
 
     if (collection.status === 'fulfilled' && Array.isArray(collection.value) && collection.value.length > 0) {
@@ -148,6 +159,38 @@ function renderReferences(items) {
     `).join('');
     track.innerHTML = html + html;
     section.style.display = '';
+}
+
+function renderStats(items) {
+    const grid = document.getElementById('stats-grid');
+    if (!grid) return;
+    grid.innerHTML = items.map(s => `
+        <div class="stat-item">
+            <h4>${escapeHtml(s.value)}</h4>
+            <span>${escapeHtml(s.label)}</span>
+        </div>
+    `).join('');
+}
+
+function renderMainServices(items) {
+    const grid = document.getElementById('services-grid');
+    if (!grid) return;
+    grid.innerHTML = items.map(s => `
+        <div class="service-card reveal active">
+            <div class="icon"><i class="${escapeHtml(s.icon || 'fas fa-tools')}"></i></div>
+            <h3>${escapeHtml(s.title)}</h3>
+            <p>${escapeHtml(s.description || '')}</p>
+        </div>
+    `).join('');
+}
+
+function applyMap(query) {
+    if (!query) return;
+    const q = encodeURIComponent(query.trim());
+    const iframe = document.getElementById('map-iframe');
+    const dir = document.getElementById('map-directions');
+    if (iframe) iframe.src = `https://www.google.com/maps?q=${q}&output=embed`;
+    if (dir) dir.href = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

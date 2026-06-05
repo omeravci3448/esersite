@@ -89,6 +89,23 @@ db.exec(`
     order_index INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
+
+  CREATE TABLE IF NOT EXISTS stats (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    value TEXT NOT NULL,
+    label TEXT NOT NULL,
+    order_index INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS services (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    icon TEXT DEFAULT 'fas fa-tools',
+    order_index INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 const userCount = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
@@ -118,10 +135,7 @@ const defaultContent = {
   social_instagram: "https://instagram.com/esermobilyamimarlik",
   about_title: "Yılların Tecrübesiyle <br>Gelen Güven",
   about_text: "Eser Mobilya olarak, ahşabın doğallığını modern tasarım çizgileriyle buluşturuyoruz. Üretim sürecimizde en kaliteli malzemeleri, usta ellerin titizliğiyle birleştirerek nesiller boyu kullanılacak eserler ortaya çıkarıyoruz.",
-  stat1_value: "25+",
-  stat1_label: "Yıllık Deneyim",
-  stat2_value: "1000+",
-  stat2_label: "Mutlu Müşteri"
+  map_query: "Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez Afyonkarahisar"
 };
 
 const insertContent = db.prepare('INSERT OR IGNORE INTO content (key, value) VALUES (?, ?)');
@@ -222,6 +236,29 @@ if (fasonWhatsappCount === 0) {
   const ins = db.prepare('INSERT INTO fason_whatsapp (name, number, order_index) VALUES (?, ?, ?)');
   for (const w of defaults) ins.run(w.name, w.number, w.order_index);
   console.log(`[db] ${defaults.length} WhatsApp kontağı eklendi (fason)`);
+}
+
+const statsCount = db.prepare('SELECT COUNT(*) as c FROM stats').get().c;
+if (statsCount === 0) {
+  const defaults = [
+    { value: '25+', label: 'Yıllık Deneyim', order_index: 1 },
+    { value: '1000+', label: 'Mutlu Müşteri', order_index: 2 }
+  ];
+  const ins = db.prepare('INSERT INTO stats (value, label, order_index) VALUES (?, ?, ?)');
+  for (const s of defaults) ins.run(s.value, s.label, s.order_index);
+  console.log(`[db] ${defaults.length} istatistik eklendi`);
+}
+
+const servicesCount = db.prepare('SELECT COUNT(*) as c FROM services').get().c;
+if (servicesCount === 0) {
+  const defaults = [
+    { title: 'Özel Mobilya İmalatı', description: 'Mutfak dolabı, TV ünitesi, gardırop, vestiyer ve kapı gibi tüm ahşap ihtiyaçlarınızı kendi atölyemizde üretiyoruz.', icon: 'fas fa-hammer', order_index: 1 },
+    { title: 'Projelendirme', description: 'Mekanınızın ölçülerini alıyor, modern 3D tasarımlarla hayalinizdeki sonucu gösteriyoruz.', icon: 'fas fa-pencil-ruler', order_index: 2 },
+    { title: 'Montaj & Servis', description: 'Üretilen her parçayı uzman ekibimizle titizlikle monte ediyor, satış sonrası destek sunuyoruz.', icon: 'fas fa-tools', order_index: 3 }
+  ];
+  const ins = db.prepare('INSERT INTO services (title, description, icon, order_index) VALUES (?, ?, ?, ?)');
+  for (const s of defaults) ins.run(s.title, s.description, s.icon, s.order_index);
+  console.log(`[db] ${defaults.length} hizmet eklendi`);
 }
 
 const fasonServicesCount = db.prepare('SELECT COUNT(*) as c FROM fason_services').get().c;

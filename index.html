@@ -145,7 +145,8 @@
                 <span class="subtitle">Neler Yapıyoruz?</span>
                 <h2>Afyon Özel Tasarım Mobilya <br>ve Mutfak Dolabı İmalatı</h2>
             </div>
-            <div class="services-grid">
+            <div class="services-grid" id="services-grid">
+                <!-- API'dan yüklenir; erişilemezse aşağıdaki statik yedek görünür -->
                 <div class="service-card reveal">
                     <div class="icon"><i class="fas fa-hammer"></i></div>
                     <h3>Özel Mobilya İmalatı</h3>
@@ -318,14 +319,15 @@
                     <span class="subtitle">Hakkımızda</span>
                     <h2 data-content="about_title" data-html="true">Yılların Tecrübesiyle <br>Gelen Güven</h2>
                     <p data-content="about_text">Eser Mobilya olarak, ahşabın doğallığını modern tasarım çizgileriyle buluşturuyoruz. Üretim sürecimizde en kaliteli malzemeleri, usta ellerin titizliğiyle birleştirerek nesiller boyu kullanılacak eserler ortaya çıkarıyoruz.</p>
-                    <div class="stats">
+                    <div class="stats" id="stats-grid">
+                        <!-- API'dan yüklenir; erişilemezse aşağıdaki statik yedek görünür -->
                         <div class="stat-item">
-                            <h4 data-content="stat1_value">25+</h4>
-                            <span data-content="stat1_label">Yıllık Deneyim</span>
+                            <h4>25+</h4>
+                            <span>Yıllık Deneyim</span>
                         </div>
                         <div class="stat-item">
-                            <h4 data-content="stat2_value">1000+</h4>
-                            <span data-content="stat2_label">Mutlu Müşteri</span>
+                            <h4>1000+</h4>
+                            <span>Mutlu Müşteri</span>
                         </div>
                     </div>
                 </div>
@@ -407,17 +409,18 @@
             </div>
             <!-- Google Maps Area -->
             <div class="map-container reveal">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3113.844907106069!2d30.5186!3d38.7758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d0263f684c9869%3A0xc3f34556488d578b!2sVeysel+Karani%2C+1135.+Sk.+No%3A15%2C+03030+Afyonkarahisar+Merkez%2FAfyonkarahisar!5e0!3m2!1str!2str!4v1714220000000!5m2!1str!2str" 
-                    width="100%" 
-                    height="450" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
+                <iframe
+                    id="map-iframe"
+                    src="https://www.google.com/maps?q=Veysel%20Karani%20Mahallesi%201135.%20Sokak%20No%3A%2015%2FA%20Merkez%20Afyonkarahisar&output=embed"
+                    width="100%"
+                    height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
                 <div class="map-overlay">
-                    <a href="https://www.google.com/maps/dir//Veysel+Karani+Mahallesi+1135.+Sokak+No:+15/A+Merkez/Afyonkarahisar" target="_blank" class="btn primary">Yol Tarifi Al</a>
+                    <a id="map-directions" href="https://www.google.com/maps/dir/?api=1&destination=Veysel%20Karani%20Mahallesi%201135.%20Sokak%20No%3A%2015%2FA%20Merkez%20Afyonkarahisar" target="_blank" rel="noopener" class="btn primary">Yol Tarifi Al</a>
                 </div>
             </div>
         </div>
