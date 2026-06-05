@@ -134,8 +134,8 @@ const defaultContent = {
   contact_address: "Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez/Afyonkarahisar",
   social_instagram: "https://instagram.com/esermobilyamimarlik",
   about_title: "Yılların Tecrübesiyle <br>Gelen Güven",
-  about_text: "Eser Mobilya olarak, ahşabın doğallığını modern tasarım çizgileriyle buluşturuyoruz. Üretim sürecimizde en kaliteli malzemeleri, usta ellerin titizliğiyle birleştirerek nesiller boyu kullanılacak eserler ortaya çıkarıyoruz.",
-  map_query: "Veysel Karani Mahallesi 1135. Sokak No: 15/A Merkez Afyonkarahisar"
+  about_text: "Eser Mobilya olarak, ahşabın doğallığını modern tasarım çizgileriyle buluşturuyoruz. Üretim sürecimizde en kaliteli malzemeleri, usta ellerin titizliğiyle birleştirerek nesiller boyu kullanılacak eserler ortaya çıkarıyoruz."
+  // map_query bilerek eklenmedi: boş kalınca harita, panelde girilen güncel adresi (contact_address) otomatik kullanır.
 };
 
 const insertContent = db.prepare('INSERT OR IGNORE INTO content (key, value) VALUES (?, ?)');
