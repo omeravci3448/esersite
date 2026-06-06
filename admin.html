@@ -403,8 +403,19 @@
                     <label>Referans Adı (firma/kişi)</label>
                     <input type="text" id="reference-name" placeholder="Örn: Prestij Konakları" required>
                 </div>
+                <div class="form-group content-image-field">
+                    <label>Logo (opsiyonel)</label>
+                    <img class="content-image-preview" id="reference-logo-preview" style="display:none; max-height:90px; background:#fff; padding:6px;">
+                    <input type="hidden" id="reference-logo-url">
+                    <label class="file-upload-label" for="reference-logo-file">
+                        <i class="fas fa-cloud-upload-alt"></i> Logo Yükle
+                    </label>
+                    <input type="file" id="reference-logo-file" accept="image/*" hidden>
+                    <button type="button" class="btn-ghost" id="reference-logo-remove" style="display:none; margin-top:6px;">Logoyu Kaldır</button>
+                    <span class="upload-hint"></span>
+                </div>
                 <div class="form-group">
-                    <label>Simge</label>
+                    <label>Simge (logo yüklenmezse bu gösterilir)</label>
                     <select id="reference-icon">
                         <option value="fas fa-building">🏢 Bina</option>
                         <option value="fas fa-hotel">🏨 Otel</option>

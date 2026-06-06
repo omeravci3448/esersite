@@ -154,9 +154,12 @@ function renderReferences(items) {
         return;
     }
     // Sonsuz kayan şerit efekti için liste iki kez basılır
-    const html = items.map(r => `
-        <div class="logo-item"><i class="${escapeHtml(r.icon || 'fas fa-building')}"></i> <span>${escapeHtml(r.name)}</span></div>
-    `).join('');
+    const html = items.map(r => {
+        const visual = r.logo_url
+            ? `<img class="logo-img" src="${escapeHtml(apiImageUrl(r.logo_url))}" alt="${escapeHtml(r.name)}">`
+            : `<i class="${escapeHtml(r.icon || 'fas fa-building')}"></i>`;
+        return `<div class="logo-item">${visual} <span>${escapeHtml(r.name)}</span></div>`;
+    }).join('');
     track.innerHTML = html + html;
     section.style.display = '';
 }

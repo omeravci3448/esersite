@@ -979,12 +979,13 @@ footer .logo {
 
 .logos-track {
     display: flex;
-    width: calc(250px * 12);
+    width: max-content;
     animation: scroll 30s linear infinite;
 }
 
 .logo-item {
     width: 250px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -1000,6 +1001,14 @@ footer .logo {
     color: var(--primary);
 }
 
+.logo-item .logo-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
 .logo-item:hover {
     opacity: 1;
     color: var(--dark);
@@ -1007,7 +1016,7 @@ footer .logo {
 
 @keyframes scroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-250px * 6)); }
+    100% { transform: translateX(-50%); }
 }
 
 /* Modal Styles */

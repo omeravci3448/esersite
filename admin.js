@@ -618,6 +618,47 @@ whatsappForm?.addEventListener('submit', async (e) => {
 const referencesList = document.getElementById('references-list');
 const referenceModal = document.getElementById('reference-modal');
 const referenceForm = document.getElementById('reference-form');
+const refLogoUrl = document.getElementById('reference-logo-url');
+const refLogoPreview = document.getElementById('reference-logo-preview');
+const refLogoRemove = document.getElementById('reference-logo-remove');
+
+function setReferenceLogo(url) {
+    if (refLogoUrl) refLogoUrl.value = url || '';
+    if (!refLogoPreview) return;
+    if (url) {
+        refLogoPreview.src = imageUrl(url);
+        refLogoPreview.style.display = 'block';
+        if (refLogoRemove) refLogoRemove.style.display = 'inline-block';
+    } else {
+        refLogoPreview.style.display = 'none';
+        if (refLogoRemove) refLogoRemove.style.display = 'none';
+    }
+}
+
+document.getElementById('reference-logo-file')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const label = document.querySelector('label[for="reference-logo-file"]');
+    const orig = label?.innerHTML;
+    if (label) label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
+    try {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res = await fetch(`${API_URL}/upload`, { method: 'POST', headers: authHeaders(), body: fd });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || data.error || 'Yükleme başarısız');
+        setReferenceLogo(data.url);
+        loadUploadLimits();
+        showToast('Logo yüklendi', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    } finally {
+        if (label && orig) label.innerHTML = orig;
+        e.target.value = '';
+    }
+});
+
+document.getElementById('reference-logo-remove')?.addEventListener('click', () => setReferenceLogo(''));
 
 async function loadReferences() {
     if (!referencesList) return;
@@ -627,18 +668,22 @@ async function loadReferences() {
             referencesList.innerHTML = '<p style="color:#888; padding:1.5rem; text-align:center;">Henüz referans eklenmemiş. Eklenene kadar ana sayfadaki "Referanslarımız" bölümü gizli kalır.</p>';
             return;
         }
-        referencesList.innerHTML = items.map(r => `
+        referencesList.innerHTML = items.map(r => {
+            const visual = r.logo_url
+                ? `<img src="${escapeHtml(imageUrl(r.logo_url))}" alt="" style="width:28px; height:28px; object-fit:contain; margin-right:8px; vertical-align:middle; border-radius:4px;">`
+                : `<i class="${escapeHtml(r.icon || 'fas fa-building')}" style="margin-right:8px; color:var(--primary);"></i>`;
+            return `
             <div class="faq-admin-item">
                 <div class="faq-admin-header">
-                    <span class="faq-admin-q"><i class="${escapeHtml(r.icon || 'fas fa-building')}" style="margin-right:8px; color:var(--primary);"></i>${escapeHtml(r.name)}</span>
+                    <span class="faq-admin-q">${visual}${escapeHtml(r.name)}</span>
                     <div class="faq-admin-actions">
                         <button class="btn-icon" onclick="editReference(${r.id})"><i class="fas fa-edit"></i></button>
                         <button class="btn-icon danger" onclick="deleteReference(${r.id})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
-                <small style="color:#999;">Sıralama: ${r.order_index}</small>
-            </div>
-        `).join('');
+                <small style="color:#999;">${r.logo_url ? 'Logo yüklü' : 'Simge'} · Sıralama: ${r.order_index}</small>
+            </div>`;
+        }).join('');
     } catch (err) {
         referencesList.innerHTML = `<p style="color:#dc3545; padding:1.5rem;">Referanslar yüklenemedi: ${err.message}</p>`;
     }
@@ -649,6 +694,7 @@ document.getElementById('add-reference-btn')?.addEventListener('click', () => {
     referenceForm.reset();
     document.getElementById('reference-id').value = '';
     document.getElementById('reference-order').value = 0;
+    setReferenceLogo('');
     referenceModal.classList.add('active');
 });
 
@@ -666,6 +712,7 @@ window.editReference = async function (id) {
         document.getElementById('reference-name').value = r.name;
         document.getElementById('reference-icon').value = r.icon || 'fas fa-building';
         document.getElementById('reference-order').value = r.order_index || 0;
+        setReferenceLogo(r.logo_url);
         referenceModal.classList.add('active');
     } catch (err) {
         showToast(err.message, 'error');
@@ -689,6 +736,7 @@ referenceForm?.addEventListener('submit', async (e) => {
     const body = {
         name: document.getElementById('reference-name').value.trim(),
         icon: document.getElementById('reference-icon').value,
+        logo_url: refLogoUrl.value || null,
         order_index: Number(document.getElementById('reference-order').value) || 0
     };
     try {
